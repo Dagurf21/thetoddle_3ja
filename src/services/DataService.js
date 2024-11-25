@@ -1,9 +1,9 @@
 /*
-*   This file handles loading the data from data.json and provides
-*   helper methods to fetch data
-*/
+ *   This file handles loading the data from data.json and provides
+ *   helper methods to fetch data
+ */
 
-import data from '../../data.json'
+import data from '../../data.json';
 
 class DataService {
     constructor() {
@@ -23,11 +23,12 @@ class DataService {
     }
 
     // Get tasks for a specific list
-    getTasks() {
+    getTasks(listId) {
         return this.tasks.filter(task => task.listId === listId);
     }
 
     // TODO: Here would be CRUD methods, since we are not writing to the file we don't need them
 }
+
 const dataService = new DataService();
-export default DataService();
+export default dataService;

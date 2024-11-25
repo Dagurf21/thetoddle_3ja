@@ -1,10 +1,12 @@
+// User can see all boards and create new boards
+
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
-import { useDataContext } from '../context/DataContext';
+import { useDataContext } from '../services/DataContext';
 
 const HomeScreen = ({ navigation }) => {
     const { boards } = useDataContext();
-
+    console.log(navigation);
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Boards</Text>
