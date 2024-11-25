@@ -1,11 +1,14 @@
-import 'react-native-gesture-handler';
 import React from 'react';
-import AppContainer from './src/routes';
-import moment from 'moment';
-moment.locale('en');
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './navigation/AppNavigator';
+import { DataProvider } from './context/DataContext';
 
 export default function App() {
   return (
-      <AppContainer />
+      <DataProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </DataProvider>
   );
 }
