@@ -1,5 +1,4 @@
 import data from '../../data.json';
-import Board from '../models/BoardModel';
 import List from '../models/ListModel';
 import Task from '../models/TaskModel';
 import ListModel from "../models/ListModel";
@@ -25,7 +24,7 @@ class ListService {
     // Create
     addList(listData) {
         const newList = new ListModel(
-            listData.id,
+            this.list.length +1,
             listData.name,
             listData.color,
             listData.boardId,
