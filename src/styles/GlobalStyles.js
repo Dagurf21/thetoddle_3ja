@@ -111,15 +111,18 @@ const styles = StyleSheet.create({
 // Create board
     createBoardButton: {
         alignSelf: 'center',
-        marginTop: 10,
-        padding: 10,
-        backgroundColor: '#f0f0f0',
-        borderRadius: 50,
         elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#4caf50',
+        padding: 16,
+        borderRadius: 8,
+        marginTop: 16,
     },
     modalContainer: {
         flex: 1,
@@ -149,6 +152,12 @@ const styles = StyleSheet.create({
     createButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 8,
     },
 });
 export default styles;

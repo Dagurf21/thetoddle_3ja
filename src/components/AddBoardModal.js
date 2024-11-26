@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Modal, Button } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Modal } from 'react-native';
 
 const AddBoardModal = ({
                            visible,
@@ -19,22 +19,24 @@ const AddBoardModal = ({
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.modalHeader}>Add New Board</Text>
+                    <Text style={styles.createHeader}>Create New Board</Text>
                     <TextInput
                         placeholder="Board Name"
+                        placeholderTextColor="#C4C4C4"
                         style={styles.input}
                         value={boardName}
                         onChangeText={setBoardName}
                     />
                     <TextInput
                         placeholder="Thumbnail URL"
+                        placeholderTextColor="#C4C4C4"
                         style={styles.input}
                         value={boardThumbnail}
                         onChangeText={setBoardThumbnail}
                     />
-                    <View style={styles.modalButtons}>
-                        <Button title="Cancel" onPress={onClose} />
-                        <Button title="Add" onPress={onSubmit} />
+                    <View style={styles.createButtons}>
+                        <Button title="Cancel" onPress={onClose} color="#818181" />
+                        <Button title="Create" onPress={onSubmit} color="#818181" />
                     </View>
                 </View>
             </View>
@@ -50,12 +52,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '90%',
+        width: '80%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
     },
-    modalHeader: {
+    createHeader: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 16,
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         paddingHorizontal: 10,
     },
-    modalButtons: {
+    createButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
