@@ -1,10 +1,31 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
-import data from "../../data.json"; // Adjust the path to where data.json is located
+import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    FlatList,
+    Button,
+    Modal,
+    TextInput,
+    Alert,
+    TouchableOpacity,
+} from 'react-native';
+import { useDataContext } from '../services/DataContext'; // Adjust the path to DataContext.js
 
 const BoardDetailScreen = ({ route }) => {
     const { boardId } = route.params; // Get boardId from navigation params
-    const board = data.boards.find((b) => b.id === boardId); // Find the board using the ID
+
+    // Access context methods and data
+    const { getBoardById, createList } = useDataContext();
+
+    // Fetch the current board using context
+    const board = getBoardById(boardId);
+
+    // Local state for modal and inputs
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newListName, setNewListName] = useState('');
+    const [newListColor, setNewListColor] = useState('#ffffff');
 
     if (!board) {
         return (
@@ -14,25 +35,90 @@ const BoardDetailScreen = ({ route }) => {
         );
     }
 
-    // Filter lists that belong to the selected board
-    const lists = data.lists.filter((list) => list.boardId === boardId);
+    const handleAddList = () => {
+        if (!newListName.trim()) {
+            Alert.alert('Error', 'List name cannot be empty.');
+            return;
+        }
+
+        // Create a new list using context
+        createList(board.id, {
+            id: Date.now(), // Generate a unique ID
+            name: newListName,
+            color: newListColor,
+        });
+
+        setNewListName(''); // Reset input fields
+        setNewListColor('#ffffff');
+        setModalVisible(false); // Close modal
+        Alert.alert('Success', 'List added successfully!');
+    };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{board.name}</Text>
-            <Image source={{ uri: board.thumbnailPhoto }} style={styles.image} />
+            {board.thumbnailPhoto ? (
+                <Image source={{ uri: board.thumbnailPhoto }} style={styles.image} />
+            ) : (
+                <Text style={styles.text}>No image available</Text>
+            )}
 
-            <Text style={styles.subtitle}>Lists:</Text>
-            <FlatList
-                data={lists}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <View style={[styles.listItem, { backgroundColor: item.color }]}>
-                        <Text style={styles.listText}>{item.name}</Text>
+            {board.lists.length === 0 ? (
+                <View>
+                    <Text style={styles.text}>No lists in board... Create a list:</Text>
+                    <TouchableOpacity
+                        style={styles.createButton}
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <Text style={styles.buttonText}>Create List</Text>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <>
+                    <Text style={styles.subtitle}>Lists:</Text>
+                    <FlatList
+                        data={board.lists}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <View
+                                style={[styles.listItem, { backgroundColor: item.color }]}
+                            >
+                                <Text style={styles.listText}>{item.name}</Text>
+                            </View>
+                        )}
+                    />
+                </>
+            )}
+
+            {/* Modal for Creating New List */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalTitle}>Create New List</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="List Name"
+                            value={newListName}
+                            onChangeText={setNewListName}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Color (e.g., #ff0000)"
+                            value={newListColor}
+                            onChangeText={setNewListColor}
+                        />
+                        <View style={styles.modalButtons}>
+                            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+                            <Button title="Add List" onPress={handleAddList} />
+                        </View>
                     </View>
-                )}
-                ListEmptyComponent={<Text>No lists available for this board.</Text>}
-            />
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -72,6 +158,50 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         textAlign: 'center',
+        marginBottom: 8,
+    },
+    createButton: {
+        backgroundColor: '#007bff',
+        padding: 12,
+        borderRadius: 6,
+        alignItems: 'center',
+        marginTop: 16,
+    },
+    buttonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        width: '80%',
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 16,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 4,
+        padding: 8,
+        marginBottom: 12,
+        width: '100%',
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
     },
 });
 
