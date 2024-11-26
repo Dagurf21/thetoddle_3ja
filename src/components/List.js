@@ -11,7 +11,8 @@ const List = ({ list }) => {
     };
 
     return (
-        <TouchableOpacity style={[styles.listContainer, { backgroundColor: list.color }]} onPress={handleNavigateToTasks}>
+        <TouchableOpacity
+            style={[styles.listContainer, { backgroundColor: list.color }]} onPress={handleNavigateToTasks}>
             <Text style={styles.listName}>{list.name}</Text>
         </TouchableOpacity>
     );

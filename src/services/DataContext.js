@@ -170,6 +170,26 @@ export const DataProvider = ({ children }) => {
         });
     };
 
+    // TODO: Needlessly complicated look into simplifying
+    const updateTaskInList = (listId, updatedTasks) => {
+        setState((prevState) => {
+            const updatedBoards = prevState.boards.map((board) => {
+                // Check if the board contains the list
+                const updatedLists = board.lists.map((list) => {
+                    if (list.id === listId) {
+                        // Update the tasks of the matched list
+                        return { ...list, tasks: updatedTasks };
+                    }
+                    return list;
+                });
+                return { ...board, lists: updatedLists };
+            });
+            return { boards: updatedBoards };
+        });
+    };
+
+
+
     // Delete
     const deleteBoard = (boardId) => {
         setState((prevState) => ({
@@ -210,6 +230,7 @@ export const DataProvider = ({ children }) => {
                 updateBoard,
                 updateList,
                 updateTask,
+                updateTaskInList,
                 deleteBoard,
                 deleteList,
                 deleteTask,
