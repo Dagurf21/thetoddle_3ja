@@ -133,13 +133,15 @@ export const DataProvider = ({ children }) => {
     // Update
     const updateBoard = (boardId, updatedData) => {
         setState((prevState) => {
-            const board = prevState.boards.find((b) => b.id === boardId);
-            if (board) {
-                board.name = updatedData.name || board.name;
-                board.thumbnailPhoto =
-                    updatedData.thumbnailPhoto || board.thumbnailPhoto;
-            }
-            return { boards: [...prevState.boards] };
+            const updatedBoards = prevState.boards.map((board) => {
+                if (board.id === boardId) {
+                    // Return a new object for the updated board to avoid mutating the state directly
+                    return { ...board, ...updatedData };
+                }
+                return board;
+            });
+
+            return { boards: updatedBoards };
         });
     };
 

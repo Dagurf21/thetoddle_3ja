@@ -3,18 +3,26 @@ import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
 import BoardItem from '../components/BoardItem';
 import AddBoardModal from '../components/AddBoardModal';
+import EditBoardModal from '../components/EditBoardModal';
 import OptionsMenu from '../components/OptionsMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from '../styles/GlobalStyles';
 
 const HomeScreen = ({ navigation }) => {
-    const { boards, createBoard, deleteBoard } = useDataContext();
+    const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [selectedBoard, setSelectedBoard] = useState(null);
+
+    // State for creating a new board
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
+
+    // State for editing an existing board
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editBoardName, setEditBoardName] = useState('');
+    const [editBoardThumbnail, setEditBoardThumbnail] = useState('');
 
     const handlePressOptions = (event, board) => {
         const { pageX, pageY } = event.nativeEvent;
@@ -24,13 +32,8 @@ const HomeScreen = ({ navigation }) => {
     };
 
     const handleCreateBoard = () => {
-        if (!newBoardName.trim()) {
-            alert('Please enter a valid board name.');
-            return;
-        }
-
-        if (!newBoardThumbnail.trim()) {
-            alert('Please enter a valid thumbnail URL.');
+        if (!newBoardName.trim() || !newBoardThumbnail.trim()) {
+            alert('Please fill in all fields.');
             return;
         }
 
@@ -46,14 +49,29 @@ const HomeScreen = ({ navigation }) => {
         setIsModalVisible(false);
     };
 
-
     const handleEditBoard = () => {
-        console.log('Edit board', selectedBoard);
+        setEditBoardName(selectedBoard.name);
+        setEditBoardThumbnail(selectedBoard.thumbnailPhoto);
+        setIsEditModalVisible(true);
         setMenuVisible(false);
     };
 
+    const handleSaveBoard = () => {
+        if (!editBoardName.trim() || !editBoardThumbnail.trim()) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const updatedBoard = {
+            name: editBoardName.trim(),
+            thumbnailPhoto: editBoardThumbnail.trim(),
+        };
+
+        updateBoard(selectedBoard.id, updatedBoard);
+        setIsEditModalVisible(false);
+    };
+
     const handleDeleteBoard = () => {
-        console.log('Delete board');
         deleteBoard(selectedBoard.id);
         setMenuVisible(false);
     };
@@ -83,22 +101,29 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.buttonText}>Create New Board</Text>
             </TouchableOpacity>
 
-            {/* Pop-up for Create Board form */}
+            {/* Modal for Creating a New Board */}
             <AddBoardModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
-                onSubmit={() => {
-                    console.log('Board Name:', newBoardName); // Debugging
-                    console.log('Thumbnail URL:', newBoardThumbnail); // Debugging
-                    handleCreateBoard();
-                }}
+                onSubmit={handleCreateBoard}
                 boardName={newBoardName}
                 setBoardName={setNewBoardName}
                 boardThumbnail={newBoardThumbnail}
                 setBoardThumbnail={setNewBoardThumbnail}
             />
 
-            {/* Pop-up for the options on each board */}
+            {/* Modal for Editing a Board */}
+            <EditBoardModal
+                visible={isEditModalVisible}
+                onClose={() => setIsEditModalVisible(false)}
+                onSubmit={handleSaveBoard}
+                boardName={editBoardName}
+                setBoardName={setEditBoardName}
+                boardThumbnail={editBoardThumbnail}
+                setBoardThumbnail={setEditBoardThumbnail}
+            />
+
+            {/* Options Menu for a Board */}
             <OptionsMenu
                 visible={menuVisible}
                 position={menuPosition}
@@ -108,5 +133,6 @@ const HomeScreen = ({ navigation }) => {
             />
         </ScrollView>
     );
-}
+};
+
 export default HomeScreen;
