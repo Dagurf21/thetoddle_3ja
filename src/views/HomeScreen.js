@@ -1,36 +1,43 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, FlatList, Button, ScrollView } from 'react-native';
+import { ScrollView, Text, FlatList, Dimensions } from 'react-native';
 import { useDataContext } from '../services/DataContext';
 import BoardItem from '../components/BoardItem';
 import AddBoardModal from '../components/AddBoardModal';
+import OptionsMenu from '../components/OptionsMenu';
+import styles from '../styles/GlobalStyles';
 
 const HomeScreen = ({ navigation }) => {
-    const { boards, createBoard, deleteBoard } = useDataContext();
+    const { boards, createBoard } = useDataContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [newBoardName, setNewBoardName] = useState('');
-    const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedBoard, setSelectedBoard] = useState(null);
 
-    const handleAddBoard = () => {
-        if (!newBoardName.trim() || !newBoardThumbnail.trim()) {
-            alert('Please fill in all fields.');
-            return;
-        }
+    const handlePressOptions = (event, board) => {
+        const { pageX, pageY } = event.nativeEvent;
+        setMenuPosition({ x: pageX, y: pageY });
+        setSelectedBoard(board);
+        setMenuVisible(true);
+    };
 
-        const newBoard = {
-            id: boards.length + 1,
-            name: newBoardName,
-            thumbnailPhoto: newBoardThumbnail,
-        };
-
-        createBoard(newBoard);
-        setNewBoardName('');
-        setNewBoardThumbnail('');
+    const handleAddBoard = (name, thumbnail) => {
+        createBoard({ id: boards.length + 1, name, thumbnailPhoto: thumbnail });
         setIsModalVisible(false);
+    };
+
+    const handleEditBoard = () => {
+        console.log('Edit board', selectedBoard);
+        setMenuVisible(false);
+    };
+
+    const handleDeleteBoard = () => {
+        console.log('Delete board', selectedBoard);
+        setMenuVisible(false);
     };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <Text style={styles.header}>Boards</Text>
+            <Text style={styles.header}>Your Boards</Text>
             <FlatList
                 data={boards}
                 keyExtractor={(item) => item.id.toString()}
@@ -38,41 +45,25 @@ const HomeScreen = ({ navigation }) => {
                     <BoardItem
                         board={item}
                         onView={(id) => navigation.navigate('BoardDetail', { boardId: id })}
+                        onOptionsPress={(event) => handlePressOptions(event, item)}
                     />
                 )}
                 contentContainerStyle={styles.flatListContainer}
             />
-            <Button title="Add New Board" onPress={() => setIsModalVisible(true)} />
-
-            {/*<Button title="Delete board 1" onPress={() => deleteBoard(1)} />*/}
-
             <AddBoardModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSubmit={handleAddBoard}
-                boardName={newBoardName}
-                setBoardName={setNewBoardName}
-                boardThumbnail={newBoardThumbnail}
-                setBoardThumbnail={setNewBoardThumbnail}
+            />
+            <OptionsMenu
+                visible={menuVisible}
+                position={menuPosition}
+                onClose={() => setMenuVisible(false)}
+                onEdit={handleEditBoard}
+                onDelete={handleDeleteBoard}
             />
         </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    scrollContainer: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#f8f9fa',
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    flatListContainer: {
-        paddingBottom: 16,
-    },
-});
 
 export default HomeScreen;
