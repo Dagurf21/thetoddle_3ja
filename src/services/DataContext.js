@@ -1,41 +1,84 @@
-import React, { createContext, useContext, useState } from 'react';
-import DataService from './DataService';
+import React, { createContext, useContext, useState } from "react";
+import Board from "../models/BoardModel";
+import List from "../models/ListModel";
+import Task from "../models/TaskModel";
+import data from "../../data.json";
 
-// Create the context
+// Helper to initialize models
+const initializeModels = (data) => {
+
+    // Creating tasks based on listId of task
+    const tasksByListId = data.tasks.reduce((map, taskData) => {
+        const task = new Task(
+            taskData.id,
+            taskData.name,
+            taskData.description,
+            taskData.isFinished,
+            taskData.listId,
+        );
+        if (!map[taskData.listId]) {
+            map[taskData.listId] = [];
+        }
+
+        map[taskData.listId].push(task);
+
+        return map;
+    }, {});
+
+    // Creating lists based on boardId of list
+    const listsByBoardId = data.lists.reduce((map, listData) => {
+        const list = new List(
+            listData.id,
+            listData.name,
+            listData.color,
+            listData.boardId,
+            tasksByListId[listData.id] || [],
+        );
+        if (!map[listData.boardId]) {
+            map[listData.boardId] = [];
+        }
+
+        map[listData.boardId].push(list);
+
+        return map;
+    }, {});
+
+    return data.boards.map(
+    (boardData) =>
+        new Board(
+            boardData.id,
+            boardData.name,
+            boardData.thumbnailPhoto,
+            listsByBoardId[boardData.id] || [],
+        ),
+    );
+};
+
+// Initialize data
+const boards = initializeModels(data);
+
+// Context setup
 const DataContext = createContext(null);
 
-// Data Provider Component
 export const DataProvider = ({ children }) => {
-    // Initialize state with DataService properties and methods
-    const [boards, setBoards] = useState(DataService.getBoards()); // Use method
-    const [lists, setLists] = useState(DataService.lists);         // Access property directly
-    const [tasks, setTasks] = useState(DataService.tasks);         // Access property directly
+    const [state, setState] = useState({ boards });
 
-    console.log('Boards:', boards); // Logs the current state of boards
-    console.log('Lists:', lists);   // Logs the current state of lists
-    console.log('Tasks:', tasks);
-
-    // Example method to create a new board
-    const createBoard = (newBoard) => {
-        DataService.boards.push(newBoard); // Add new board to the data
-        setBoards([...DataService.boards]); // Update state
-    };
+        // Example: Add a new board
+        const createBoard = (newBoard) => {
+        const board = new Board(
+            newBoard.id,
+            newBoard.name,
+            newBoard.thumbnailPhoto,
+            [],
+        );
+        setState((prevState) => ({ boards: [...prevState.boards, board] }));
+  };
 
     return (
-        <DataContext.Provider
-            value={{
-                boards,
-                lists,
-                tasks,
-                createBoard,
-                getLists: DataService.getLists,  // Reference DataService methods
-                getTasks: DataService.getTasks,  // Reference DataService methods
-            }}
-        >
+        <DataContext.Provider value={{ boards: state.boards, createBoard }}>
             {children}
         </DataContext.Provider>
     );
 };
 
-// Hook to use DataContext in components
 export const useDataContext = () => useContext(DataContext);
