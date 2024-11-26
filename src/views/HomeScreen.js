@@ -15,6 +15,7 @@ import { useDataContext } from '../services/DataContext';
 
 const HomeScreen = ({ navigation }) => {
     const { boards, createBoard } = useDataContext();
+    const { deleteBoard } = useDataContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
@@ -36,6 +37,11 @@ const HomeScreen = ({ navigation }) => {
         setNewBoardThumbnail('');
         setIsModalVisible(false); // Close the modal
     };
+
+    const handleDelete = () => {
+        deleteBoard(1); // Delete the board with id=1
+    };
+
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -67,6 +73,8 @@ const HomeScreen = ({ navigation }) => {
                 title="Add New Board"
                 onPress={() => setIsModalVisible(true)}
             />
+
+            <Button title="Delete board 1" onPress={handleDelete} />
 
             {/* Modal for adding a new board */}
             <Modal
