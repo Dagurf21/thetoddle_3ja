@@ -15,10 +15,6 @@ const OptionsMenu = ({ visible, position, onClose, onEdit, onDelete }) => {
             : position.x,
     };
 
-    const handleEdit = () => {
-        console.log('Delete Board inside options')
-    }
-
     return (
         <Modal visible={visible} transparent={true} animationType="none" onRequestClose={onClose}>
             <TouchableOpacity style={styles.optionsOverlay} onPress={onClose}>
