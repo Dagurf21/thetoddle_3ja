@@ -1,45 +1,48 @@
 import data from '../../data.json';
-import List from '../models/ListModel';
-import Task from '../models/TaskModel';
-import ListModel from "../models/ListModel";
+import ListModel from '../models/ListModel';
+import TaskModel from '../models/TaskModel';
 
 class ListService {
     constructor() {
-        // Inizialize with data from JSON
-        this.list = data.lists.map(
-            list => new List(
+        // Initialize with data from JSON
+        this.lists = data.lists.map(
+            list => new ListModel(
                 list.id,
                 list.name,
                 list.color,
                 list.boardId
-            ));
+            )
+        );
         this.tasks = data.tasks.map(
-            task => new Task(
+            task => new TaskModel(
                 task.id,
                 task.name,
-                task.thumbnailPhoto)
-            );
+                task.description,
+                task.isFinished,
+                task.listId
+            )
+        );
     }
 
     // Create
     addList(listData) {
         const newList = new ListModel(
-            this.list.length +1,
+            this.lists.length + 1,
             listData.name,
             listData.color,
-            listData.boardId,
-        )
-        this.list.push(newList);
-        return(newList);
+            listData.boardId
+        );
+        this.lists.push(newList);
+        return newList;
     }
 
     // Read
-    getlists() {
-        return this.getlists();
+    getLists() {
+        return this.lists;
     }
 
     getListById(id) {
-        return this.getlists().find(list => list.id === id);
+        return this.lists.find(list => list.id === id);
     }
 
     // Update
@@ -56,7 +59,16 @@ class ListService {
 
     // Delete
     deleteList(listId) {
+        // Delete the list
         this.lists = this.lists.filter(list => list.id !== listId);
+
+        // Cascade delete tasks associated with the list
+        this.tasks = this.tasks.filter(task => task.listId !== listId);
+    }
+
+    // Get tasks for a specific list
+    getTasksForList(listId) {
+        return this.tasks.filter(task => task.listId === listId);
     }
 }
 

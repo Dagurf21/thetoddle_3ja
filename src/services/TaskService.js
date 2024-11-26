@@ -1,35 +1,28 @@
 import data from '../../data.json';
-import List from '../models/ListModel';
-import Task from '../models/TaskModel';
+import TaskModel from '../models/TaskModel';
 
 class TaskService {
     constructor() {
-        this.lists = data.lists.map(
-            list => new List(
-                list.id,
-                list.name,
-                list.color,
-                list.boardId
-            ));
         this.tasks = data.tasks.map(
-            task => new Task(
+            task => new TaskModel(
                 task.id,
                 task.name,
                 task.description,
                 task.isFinished,
                 task.listId
-            ));
+            )
+        );
     }
 
     // Create
     addTask(taskData) {
-        const newTask = new Task(
+        const newTask = new TaskModel(
             this.tasks.length + 1,
             taskData.name,
             taskData.description,
-            taskData.isFinished,
-            taskData.listId,
-        )
+            false, // Default: not finished
+            taskData.listId
+        );
         this.tasks.push(newTask);
         return newTask;
     }
@@ -43,8 +36,8 @@ class TaskService {
         return this.tasks.find(task => task.id === id);
     }
 
-    getTaskByListId(listId) {
-        return this.tasks.find(task => task.listId === listId);
+    getTasksByListId(listId) {
+        return this.tasks.filter(task => task.listId === listId); // Return all tasks in a list
     }
 
     // Update
@@ -53,7 +46,10 @@ class TaskService {
         if (task) {
             task.name = updatedData.name || task.name;
             task.description = updatedData.description || task.description;
-            task.isFinished = updatedData.isFinished || task.isFinished;
+            task.isFinished =
+                updatedData.isFinished !== undefined
+                    ? updatedData.isFinished
+                    : task.isFinished;
             task.listId = updatedData.listId || task.listId;
             return task;
         }
@@ -61,8 +57,8 @@ class TaskService {
     }
 
     // Delete
-    deleteBoard(boardId) {
-        this.tasks = this.tasks.filter(task => task.id !== boardId);
+    deleteTask(taskId) {
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
     }
 }
 
