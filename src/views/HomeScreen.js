@@ -1,172 +1,138 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Button,
-    Image,
-    TextInput,
-    Modal,
-    TouchableOpacity,
-    ScrollView,
-} from 'react-native';
+import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
+import BoardItem from '../components/BoardItem';
+import AddBoardModal from '../components/AddBoardModal';
+import EditBoardModal from '../components/EditBoardModal';
+import OptionsMenu from '../components/OptionsMenu';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import styles from '../styles/GlobalStyles';
 
 const HomeScreen = ({ navigation }) => {
-    const { boards, createBoard } = useDataContext();
+    const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedBoard, setSelectedBoard] = useState(null);
+
+    // State for creating a new board
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
 
-    const handleAddBoard = () => {
+    // State for editing an existing board
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editBoardName, setEditBoardName] = useState('');
+    const [editBoardThumbnail, setEditBoardThumbnail] = useState('');
+
+    const handlePressOptions = (event, board) => {
+        const { pageX, pageY } = event.nativeEvent;
+        setMenuPosition({ x: pageX, y: pageY });
+        setSelectedBoard(board);
+        setMenuVisible(true);
+    };
+
+    const handleCreateBoard = () => {
         if (!newBoardName.trim() || !newBoardThumbnail.trim()) {
             alert('Please fill in all fields.');
             return;
         }
 
         const newBoard = {
-            id: boards.length + 1, // Generate a new ID
-            name: newBoardName,
-            thumbnailPhoto: newBoardThumbnail,
+            id: boards.length + 1,
+            name: newBoardName.trim(),
+            thumbnailPhoto: newBoardThumbnail.trim(),
         };
 
         createBoard(newBoard);
         setNewBoardName('');
         setNewBoardThumbnail('');
-        setIsModalVisible(false); // Close the modal
+        setIsModalVisible(false);
+    };
+
+    const handleEditBoard = () => {
+        setEditBoardName(selectedBoard.name);
+        setEditBoardThumbnail(selectedBoard.thumbnailPhoto);
+        setIsEditModalVisible(true);
+        setMenuVisible(false);
+    };
+
+    const handleSaveBoard = () => {
+        if (!editBoardName.trim() || !editBoardThumbnail.trim()) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const updatedBoard = {
+            name: editBoardName.trim(),
+            thumbnailPhoto: editBoardThumbnail.trim(),
+        };
+
+        updateBoard(selectedBoard.id, updatedBoard);
+        setIsEditModalVisible(false);
+    };
+
+    const handleDeleteBoard = () => {
+        deleteBoard(selectedBoard.id);
+        setMenuVisible(false);
     };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <Text style={styles.header}>Boards</Text>
+            <Text style={styles.header}>Your Boards</Text>
             <FlatList
                 data={boards}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.boardItem}>
-                        <Image
-                            source={{ uri: item.thumbnailPhoto }}
-                            style={styles.thumbnail}
-                        />
-                        <View style={styles.boardDetails}>
-                            <Text style={styles.boardName}>{item.name}</Text>
-                            <Button
-                                title="View Board"
-                                onPress={() =>
-                                    navigation.navigate('BoardDetail', { boardId: item.id })
-                                }
-                            />
-                        </View>
-                    </View>
+                    <BoardItem
+                        board={item}
+                        onView={(id) => navigation.navigate('BoardDetail', { boardId: id })}
+                        onOptionsPress={(event) => handlePressOptions(event, item)}
+                    />
                 )}
-                // Ensure FlatList scrolls independently
                 contentContainerStyle={styles.flatListContainer}
             />
-            <Button
-                title="Add New Board"
+
+            {/* Create New Board Button */}
+            <TouchableOpacity
+                style={styles.createBoardButton}
                 onPress={() => setIsModalVisible(true)}
+            >
+                <MaterialIcons name="add" size={32} color="#fff" />
+                <Text style={styles.buttonText}>Create New Board</Text>
+            </TouchableOpacity>
+
+            {/* Modal for Creating a New Board */}
+            <AddBoardModal
+                visible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onSubmit={handleCreateBoard}
+                boardName={newBoardName}
+                setBoardName={setNewBoardName}
+                boardThumbnail={newBoardThumbnail}
+                setBoardThumbnail={setNewBoardThumbnail}
             />
 
-            {/* Modal for adding a new board */}
-            <Modal
-                visible={isModalVisible}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalHeader}>Add New Board</Text>
-                        <TextInput
-                            placeholder="Board Name"
-                            style={styles.input}
-                            value={newBoardName}
-                            onChangeText={setNewBoardName}
-                        />
-                        <TextInput
-                            placeholder="Thumbnail URL"
-                            style={styles.input}
-                            value={newBoardThumbnail}
-                            onChangeText={setNewBoardThumbnail}
-                        />
-                        <View style={styles.modalButtons}>
-                            <Button title="Cancel" onPress={() => setIsModalVisible(false)} />
-                            <Button title="Add" onPress={handleAddBoard} />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+            {/* Modal for Editing a Board */}
+            <EditBoardModal
+                visible={isEditModalVisible}
+                onClose={() => setIsEditModalVisible(false)}
+                onSubmit={handleSaveBoard}
+                boardName={editBoardName}
+                setBoardName={setEditBoardName}
+                boardThumbnail={editBoardThumbnail}
+                setBoardThumbnail={setEditBoardThumbnail}
+            />
+
+            {/* Options Menu for a Board */}
+            <OptionsMenu
+                visible={menuVisible}
+                position={menuPosition}
+                onClose={() => setMenuVisible(false)}
+                onEdit={handleEditBoard}
+                onDelete={handleDeleteBoard}
+            />
         </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    scrollContainer: {
-        flexGrow: 1,
-        padding: 16,
-        backgroundColor: '#f8f9fa',
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    boardItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 16,
-        padding: 12,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 8,
-    },
-    thumbnail: {
-        width: 80,
-        height: 80,
-        borderRadius: 8,
-        marginRight: 12,
-    },
-    boardDetails: {
-        flex: 1,
-    },
-    boardName: {
-        fontSize: 18,
-        fontWeight: '500',
-        marginBottom: 8,
-    },
-    flatListContainer: {
-        paddingBottom: 16,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        width: '90%',
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-    },
-    modalHeader: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 16,
-        paddingHorizontal: 10,
-    },
-    modalButtons: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-});
 
 export default HomeScreen;
