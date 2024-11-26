@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Button, ScrollView } from 'react-native';
+import { Text, StyleSheet, FlatList, Button, ScrollView } from 'react-native';
 import { useDataContext } from '../services/DataContext';
 import BoardItem from '../components/BoardItem';
 import AddBoardModal from '../components/AddBoardModal';
