@@ -4,25 +4,20 @@ import {
     Text,
     StyleSheet,
     Image,
-    FlatList,
-    Button,
     Modal,
+    Button,
     TextInput,
     Alert,
     TouchableOpacity,
 } from 'react-native';
-import { useDataContext } from '../services/DataContext'; // Adjust the path to DataContext.js
+import { useDataContext } from '../services/DataContext';
+import List from '../components/List'; // Import List component
 
 const BoardDetailScreen = ({ route }) => {
-    const { boardId } = route.params; // Get boardId from navigation params
-
-    // Access context methods and data
+    const { boardId } = route.params;
     const { getBoardById, createList } = useDataContext();
-
-    // Fetch the current board using context
     const board = getBoardById(boardId);
 
-    // Local state for modal and inputs
     const [modalVisible, setModalVisible] = useState(false);
     const [newListName, setNewListName] = useState('');
     const [newListColor, setNewListColor] = useState('#ffffff');
@@ -41,16 +36,15 @@ const BoardDetailScreen = ({ route }) => {
             return;
         }
 
-        // Create a new list using context
         createList(board.id, {
-            id: Date.now(), // Generate a unique ID
+            id: Date.now(), // Generate unique ID
             name: newListName,
             color: newListColor,
         });
 
-        setNewListName(''); // Reset input fields
+        setNewListName('');
         setNewListColor('#ffffff');
-        setModalVisible(false); // Close modal
+        setModalVisible(false);
         Alert.alert('Success', 'List added successfully!');
     };
 
@@ -63,32 +57,18 @@ const BoardDetailScreen = ({ route }) => {
                 <Text style={styles.text}>No image available</Text>
             )}
 
-            {board.lists.length === 0 ? (
-                <View>
-                    <Text style={styles.text}>No lists in board... Create a list:</Text>
-                    <TouchableOpacity
-                        style={styles.createButton}
-                        onPress={() => setModalVisible(true)}
-                    >
-                        <Text style={styles.buttonText}>Create List</Text>
-                    </TouchableOpacity>
-                </View>
-            ) : (
-                <>
-                    <Text style={styles.subtitle}>Lists:</Text>
-                    <FlatList
-                        data={board.lists}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <View
-                                style={[styles.listItem, { backgroundColor: item.color }]}
-                            >
-                                <Text style={styles.listText}>{item.name}</Text>
-                            </View>
-                        )}
-                    />
-                </>
-            )}
+            {/* Create List Button */}
+            <TouchableOpacity
+                style={styles.createButton}
+                onPress={() => setModalVisible(true)}
+            >
+                <Text style={styles.buttonText}>Create New List</Text>
+            </TouchableOpacity>
+
+            {/* Render Lists */}
+            {board.lists.map((list) => (
+                <List key={list.id} list={list} />
+            ))}
 
             {/* Modal for Creating New List */}
             <Modal
@@ -140,20 +120,6 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 8,
         marginBottom: 16,
-    },
-    subtitle: {
-        fontSize: 20,
-        fontWeight: '600',
-        marginBottom: 8,
-    },
-    listItem: {
-        padding: 12,
-        marginVertical: 8,
-        borderRadius: 6,
-    },
-    listText: {
-        fontSize: 18,
-        fontWeight: '500',
     },
     text: {
         fontSize: 16,
