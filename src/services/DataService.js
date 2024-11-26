@@ -1,3 +1,8 @@
+/*
+ *   This file handles loading the data from data.json and provides
+ *   helper methods to fetch data
+ */
+
 import data from '../../data.json';
 
 class DataService {
