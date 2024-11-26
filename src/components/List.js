@@ -1,6 +1,6 @@
 // Displays lists for a specific board
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const List = ({ list }) => {
@@ -11,7 +11,8 @@ const List = ({ list }) => {
     };
 
     return (
-        <TouchableOpacity style={[styles.listContainer, { backgroundColor: list.color }]} onPress={handleNavigateToTasks}>
+        <TouchableOpacity
+            style={[styles.listContainer, { backgroundColor: list.color }]} onPress={handleNavigateToTasks}>
             <Text style={styles.listName}>{list.name}</Text>
         </TouchableOpacity>
     );
