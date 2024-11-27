@@ -3,7 +3,6 @@
 [Install Guide](#install-guide) <br>
 [Key Design Notes](#key-design-notes) <br>
 [Root Files](#root-files) <br>
-[Helpers.js](#Helpers-js) <br>
 
 
 ## Run Expo
