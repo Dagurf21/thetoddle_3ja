@@ -1,1 +1,0 @@
-// SCreen to view lists in a board
