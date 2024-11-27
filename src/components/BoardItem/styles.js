@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         padding: 12,
         borderRadius: 8,
-        backgroundColor: '#d3d3d3',
+        backgroundColor: '#DFDFDF',
     },
     thumbnail: {
         width: 80,
