@@ -175,29 +175,6 @@ Handles loading and saving data from data.json.
 Provides helper functions to fetch data for boards, lists, and tasks.  
 Example: getBoards(), getLists(boardId), getTasks(listId).
 
-## /styles
-
-### `GlobalStyles.js`
-Contains shared styles (e.g., colors, typography, spacing).  
-Example:
-
-```javascript
-export const GlobalStyles = {
-  colors: {
-    primary: '#6200ee',
-    secondary: '#03dac6',
-    background: '#f5f5f5',
-    text: '#000000',
-  },
-  spacing: {
-    small: 8,
-    medium: 16,
-    large: 24,
-  },
-};
-```
-
-## /utils
 
 ### `Helpers.js`
 Provides utility functions.  
