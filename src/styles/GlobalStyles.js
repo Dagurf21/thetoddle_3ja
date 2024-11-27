@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+
 const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
@@ -108,6 +109,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: '50%',
     },
+
+// Create board
+    createBoardButton: {
+        alignSelf: 'center',
+
 // Create board
     createBoardButton: {
         alignSelf: 'center',
@@ -124,6 +130,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 16,
     },
+
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -160,4 +167,5 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
 });
+
 export default styles;
