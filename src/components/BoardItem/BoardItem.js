@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image, Text } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from '../styles/GlobalStyles';
+import styles from '../../styles/GlobalStyles';
 
 const BoardItem = ({ board, onView, onOptionsPress }) => {
     return (
