@@ -1,4 +1,4 @@
-# The Toddle
+# Toddler
 T-488-MAPP - Þróun Smáforrita - 2024 Haustönn - Háskólinn í Reykjavík
 
 # Table of contents
