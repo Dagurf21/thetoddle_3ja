@@ -9,7 +9,8 @@ class TaskService {
                 task.name,
                 task.description,
                 task.isFinished,
-                task.listId
+                task.listId,
+                task.dueDate
             )
         );
     }
@@ -21,7 +22,8 @@ class TaskService {
             taskData.name,
             taskData.description,
             false, // Default: not finished
-            taskData.listId
+            taskData.listId,
+            taskData.dueDate
         );
         this.tasks.push(newTask);
         return newTask;
@@ -51,6 +53,7 @@ class TaskService {
                     ? updatedData.isFinished
                     : task.isFinished;
             task.listId = updatedData.listId || task.listId;
+            task.dueDate = task.dueDate || task.dueDate;
             return task;
         }
         return null;
