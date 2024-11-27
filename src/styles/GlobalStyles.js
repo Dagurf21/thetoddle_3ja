@@ -113,10 +113,6 @@ const styles = StyleSheet.create({
 // Create board
     createBoardButton: {
         alignSelf: 'center',
-
-// Create board
-    createBoardButton: {
-        alignSelf: 'center',
         elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -165,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 8,
-    },
+    }
 });
 
 export default styles;
