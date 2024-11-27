@@ -4,6 +4,7 @@ import { useDataContext } from '../../services/DataContext';
 import BoardHeader from '../../components/BoardHeader/BoardHeader';
 import CreateListModal from '../../components/CreateListModal/CreateListModal';
 import ListsSection from '../../components/ListSection/ListsSection';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import styles from './styles';
 
 const BoardDetailScreen = ({ route }) => {
@@ -56,6 +57,7 @@ const BoardDetailScreen = ({ route }) => {
                 style={styles.createBoardButton}
                 onPress={() => setModalVisible(true)}
             >
+                <MaterialIcons name="add" size={32} color="#fff" />
                 <Text style={styles.buttonText}>Create New List</Text>
             </TouchableOpacity>
 
