@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Modal } from 'react-native';
 
-const AddBoardModal = ({
+const CreateBoardModal = ({
                            visible,
                            onClose,
                            onSubmit,
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddBoardModal;
+export default CreateBoardModal;
