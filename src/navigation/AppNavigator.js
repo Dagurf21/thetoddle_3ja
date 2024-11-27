@@ -5,6 +5,7 @@ import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen';
 import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen';
 import LoadingScreen from '../views/LoadingScreen/LoadingScreen';
 import TaskView from '../views/TaskView/TaskView';
+import CalendarView from "../views/CalendarView/CalendarView";              // Displays tasks for a specific list
 import AddTaskScreen from "../views/AddTaskScreen/AddTaskScreen";
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
 
@@ -39,7 +40,6 @@ const AppNavigator = () => {
                     ),
                 })}
             />
-
 
             {/* Board Detail Screen */}
             <Stack.Screen
@@ -94,6 +94,12 @@ const AppNavigator = () => {
                 component={AddTaskScreen}
                 options={{ title: 'Add New Task' }}
             />
+
+            {/* Calendar Screen */}
+            <Stack.Screen
+                name="Calendar"
+                component={CalendarView} />
+
         </Stack.Navigator>
     );
 };

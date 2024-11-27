@@ -101,6 +101,17 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.buttonText}>Create New Board</Text>
             </TouchableOpacity>
 
+            {/* Open calendar screen */}
+            <TouchableOpacity
+                style={styles.createBoardButton}
+                onPress={() => navigation.navigate('Calendar')}
+            >
+                <MaterialIcons name="add" size={32} color="#fff" />
+                <Text style={styles.buttonText}>Go to calendar</Text>
+
+
+            </TouchableOpacity>
+
             {/* Modal for Creating a New Board */}
             <CreateBoardModal
                 visible={isModalVisible}
