@@ -45,20 +45,20 @@ const TaskModal = ({
                             onValueChange={setIsFinished}
                         />
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[styles.button, styles.cancelButton]}
-                            onPress={onClose}
-                        >
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.submitButton]}
-                            onPress={onSubmit}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {/*<View style={styles.buttonContainer}>*/}
+                    {/*    <TouchableOpacity*/}
+                    {/*        style={[styles.button, styles.cancelButton]}*/}
+                    {/*        onPress={onClose}*/}
+                    {/*    >*/}
+                    {/*        <Text style={styles.buttonText}>Cancel</Text>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*    <TouchableOpacity*/}
+                    {/*        style={[styles.button, styles.submitButton]}*/}
+                    {/*        onPress={onSubmit}*/}
+                    {/*    >*/}
+                    {/*        <Text style={styles.buttonText}>Save</Text>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*</View>*/}
                 </View>
             </View>
         </Modal>

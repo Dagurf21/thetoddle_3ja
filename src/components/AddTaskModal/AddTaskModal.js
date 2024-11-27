@@ -48,7 +48,7 @@ const TaskModal = ({
 
                     <View style={styles.createButtons}>
                         <Button title="Cancel" onPress={onClose}  />
-                        <Button title="Create" onPress={onSubmit}  />
+                        <Button title="Save" onPress={onSubmit}  />
                     </View>
 
                 </View>
