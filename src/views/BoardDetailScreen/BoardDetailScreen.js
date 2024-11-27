@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { useDataContext } from '../services/DataContext';
-import BoardHeader from '../components/BoardHeader/BoardHeader';
-import CreateListModal from '../components/CreateListModal/CreateListModal';
-import ListsSection from '../components/ListSection/ListsSection';
-import styles from '../styles/GlobalStyles';
+import { useDataContext } from '../../services/DataContext';
+import BoardHeader from '../../components/BoardHeader/BoardHeader';
+import CreateListModal from '../../components/CreateListModal/CreateListModal';
+import ListsSection from '../../components/ListSection/ListsSection';
+import styles from './styles';
 
 const BoardDetailScreen = ({ route }) => {
     const { boardId } = route.params;

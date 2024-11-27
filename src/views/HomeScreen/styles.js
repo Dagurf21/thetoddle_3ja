@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -161,6 +161,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 8,
+    }, /* <-- Special styles for loading screen --> */
+    loadingScreencontainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingScreenText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20
     }
 });
 
