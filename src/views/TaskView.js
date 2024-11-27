@@ -10,9 +10,7 @@ import styles from '../styles/GlobalStyles';
 const TaskView = ({ route }) => {
     const { listId } = route.params;
     const { getListById, updateTaskInList, getAllLists } = useDataContext();
-
     const list = getListById(listId);
-
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
@@ -115,7 +113,6 @@ const TaskView = ({ route }) => {
         setMenuVisible(false);
     };
 
-
     const handlePressOptions = (event, task) => {
         const { pageX, pageY } = event.nativeEvent;
         setMenuPosition({ x: pageX, y: pageY });
@@ -123,9 +120,32 @@ const TaskView = ({ route }) => {
         setMenuVisible(true); // Show the menu
     };
 
+    const ProgressBar = ({ tasks }) => {
+        const completedTasks = tasks.filter(task => task.isFinished).length;
+        const totalTasks = tasks.length;
+        const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+
+        console.log('Progress percentage:', progress); // Debugging
+
+        return (
+            <View style={styles.progressContainer}>
+                <Text style={styles.progressText}>{`Progress: ${completedTasks}/${totalTasks}`}</Text>
+                <View style={styles.progressBar}>
+                    <View style={[styles.progress, { width: `${progress}%` }]} />
+                </View>
+            </View>
+        );
+    };
+
+
     return (
         <View style={styles.scrollContainer}>
             <Text style={styles.header}>{list.name}</Text>
+
+            {/* Progress Bar */}
+            <ProgressBar tasks={list.tasks} />
+
+            {/* Task List */}
             <FlatList
                 data={list.tasks}
                 keyExtractor={(item) => item.id.toString()}
@@ -136,9 +156,10 @@ const TaskView = ({ route }) => {
                         onOptionsPress={(event) => handlePressOptions(event, item)}
                     />
                 )}
-                ListEmptyComponent={<Text style={styles.textCenter}>No tasks available.</Text>}
+                ListEmptyComponent={<Text style={styles.progressText}>No tasks available.</Text>}
                 contentContainerStyle={styles.flatListContainer}
             />
+
             <TouchableOpacity
                 style={styles.createBoardButton}
                 onPress={() => setIsModalVisible(true)}
@@ -179,5 +200,4 @@ const TaskView = ({ route }) => {
         </View>
     );
 };
-
 export default TaskView;
