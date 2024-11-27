@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../views/HomeScreen';
-import BoardDetailScreen from '../views/BoardDetailScreen'; // Displays details of a specific board
-import CreateBoardScreen from '../views/CreateBoardScreen';       // Adds a new board
-import LoadingScreen from '../views/LoadingScreen';         // Displays a loading screen
-import TaskView from '../views/TaskView';
-import AddTaskScreen from "../views/AddTaskScreen";              // Displays tasks for a specific list
+import HomeScreen from '../views/HomeScreen/HomeScreen';
+import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen'; // Displays details of a specific board
+import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen';       // Adds a new board
+import LoadingScreen from '../views/LoadingScreen/LoadingScreen';         // Displays a loading screen
+import TaskView from '../views/TaskView/TaskView';
+import AddTaskScreen from "../views/AddTaskScreen/AddTaskScreen";              // Displays tasks for a specific list
 
 const Stack = createStackNavigator();
 

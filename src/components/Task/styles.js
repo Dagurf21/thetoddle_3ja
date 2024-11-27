@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     checkboxChecked: {
         backgroundColor: '#4caf50',
-        borderColor: '#4caf50',
+        borderColor: '#47A04B',
     },
     checkboxUnchecked: {
         backgroundColor: 'transparent',

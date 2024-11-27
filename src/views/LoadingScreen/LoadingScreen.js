@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import styles from './styleviews';
+import styles from './styles';
 
 const LoadingScreen = ({ navigation }) => {
     return (

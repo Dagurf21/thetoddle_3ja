@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
-        width: '80%',
+        width: '60%',
         alignItems: 'center',
     },
     modalTitle: {

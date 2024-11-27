@@ -13,7 +13,7 @@ const CreateListModal = ({
                          }) => {
     return (
         <Modal
-            animationType="slide"
+            animationType="none"
             transparent={true}
             visible={visible}
             onRequestClose={onClose}
@@ -24,12 +24,14 @@ const CreateListModal = ({
                     <TextInput
                         style={styles.input}
                         placeholder="List Name"
+                        placeholderTextColor="#C4C4C4"
                         value={listName}
                         onChangeText={setListName}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Color (e.g., #ff0000)"
+                        placeholderTextColor="#C4C4C4"
                         value={listColor}
                         onChangeText={setListColor}
                     />

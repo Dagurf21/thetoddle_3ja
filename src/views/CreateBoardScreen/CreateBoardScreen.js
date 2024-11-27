@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import styles from './styles';
 
   const CreateBoardScreen = () => {
     return (
@@ -8,17 +9,6 @@ import { View, Text, StyleSheet } from "react-native";
       </View>
     );
   };
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    text: {
-      fontSize: 18,
-    },
-  });
 
   export default CreateBoardScreen;
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Modal, View, Text, TextInput, Switch, TouchableOpacity,} from 'react-native';
+import {Modal, View, Text, TextInput, Switch, TouchableOpacity, Button,} from 'react-native';
 import styles from './styles'
 
 const TaskModal = ({
@@ -17,12 +17,12 @@ const TaskModal = ({
         <Modal
             visible={visible}
             transparent={true}
-            animationType="slide"
+            animationType="none"
             onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.modalTitle}>Task Details</Text>
+                    <Text style={styles.modalTitle}>Create Task</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Task Name"
@@ -45,20 +45,12 @@ const TaskModal = ({
                             onValueChange={setIsFinished}
                         />
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[styles.button, styles.cancelButton]}
-                            onPress={onClose}
-                        >
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.submitButton]}
-                            onPress={onSubmit}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
+
+                    <View style={styles.createButtons}>
+                        <Button title="Cancel" onPress={onClose}  />
+                        <Button title="Create" onPress={onSubmit}  />
                     </View>
+
                 </View>
             </View>
         </Modal>
