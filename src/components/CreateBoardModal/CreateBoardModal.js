@@ -15,7 +15,7 @@ const CreateBoardModal = ({
         <Modal
             visible={visible}
             transparent={true}
-            animationType="slide"
+            animationType="none"
             onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
@@ -36,8 +36,8 @@ const CreateBoardModal = ({
                         onChangeText={setBoardThumbnail}
                     />
                     <View style={styles.createButtons}>
-                        <Button title="Cancel" onPress={onClose} color="#818181" />
-                        <Button title="Create" onPress={onSubmit} color="#818181" />
+                        <Button title="Cancel" onPress={onClose}  />
+                        <Button title="Create" onPress={onSubmit}  />
                     </View>
                 </View>
             </View>

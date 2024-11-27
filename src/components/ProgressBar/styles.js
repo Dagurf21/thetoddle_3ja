@@ -22,3 +22,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#4caf50',
     },
 });
+
+export default styles;

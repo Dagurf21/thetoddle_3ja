@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '90%',
+        width: '60%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     textArea: {
+        paddingTop: 5,
         height: 80,
         textAlignVertical: 'top',
     },
@@ -41,27 +42,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 16,
     },
-    buttonContainer: {
-        flexDirection: "row",
+    createButtons: {
+        flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    button: {
-        width: 100,
-        paddingVertical: 8,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginHorizontal: 8,
-    },
-    cancelButton: {
-        backgroundColor: '#007bff',
-    },
-    submitButton: {
-        backgroundColor: '#007bff',
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-    },
+    }
 });
 
 export default styles;

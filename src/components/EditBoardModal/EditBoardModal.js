@@ -15,7 +15,7 @@ const EditBoardModal = ({
         <Modal
             visible={visible}
             transparent={true}
-            animationType="slide"
+            animationType="none"
             onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
