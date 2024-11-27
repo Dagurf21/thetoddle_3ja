@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { useDataContext } from '../services/DataContext';
-import Task from '../components/Task/Task';
-import TaskModal from '../components/AddTaskModal/AddTaskModal';
-import OptionsMenu from '../components/OptionsMenuTask/OptionsMenuTask';
-import MoveTaskModal from '../components/MoveTaskModal/MoveTaskModal'; // Import MoveTaskModal
-import styles from '../styles/GlobalStyles';
+import { useDataContext } from '../../services/DataContext';
+import Task from '../../components/Task/Task';
+import TaskModal from '../../components/AddTaskModal/AddTaskModal';
+import OptionsMenu from '../../components/OptionsMenuTask/OptionsMenuTask';
+import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal'; // Import MoveTaskModal
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import styles from './styles';
 
 const TaskView = ({ route }) => {
     const { listId } = route.params;
