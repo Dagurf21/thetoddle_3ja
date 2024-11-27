@@ -1,49 +1,37 @@
 import React, { useState } from 'react';
-import styles from '../styles/GlobalStyles.js';
-import {
-    View,
-    Text,
-    FlatList,
-    Button,
-    Image,
-    TextInput,
-    Modal,
-    TouchableOpacity,
-    ScrollView,
-    Dimensions
-} from 'react-native';
+import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
+import BoardItem from '../components/BoardItem';
+import AddBoardModal from '../components/AddBoardModal';
+import EditBoardModal from '../components/EditBoardModal';
+import OptionsMenu from '../components/OptionsMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import styles from '../styles/GlobalStyles';
 
 const HomeScreen = ({ navigation }) => {
-    const { boards, createBoard } = useDataContext();
+    const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isOptionsVisible, setIsOptionsVisible] = useState(false);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedBoard, setSelectedBoard] = useState(null);
+
+    // State for creating a new board
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
-    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [menuDimensions, setMenuDimensions] = useState({ width: 0, height: 0 });
-    const screenWidth = Dimensions.get('window').width;
-    const screenHeight = Dimensions.get('window').height;
 
-    const handlePressOptions = (event) => {
+    // State for editing an existing board
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editBoardName, setEditBoardName] = useState('');
+    const [editBoardThumbnail, setEditBoardThumbnail] = useState('');
+
+    const handlePressOptions = (event, board) => {
         const { pageX, pageY } = event.nativeEvent;
-        setMenuPosition({ x: pageX -10, y: pageY -20 });
-        setIsOptionsVisible(true);
+        setMenuPosition({ x: pageX, y: pageY });
+        setSelectedBoard(board);
+        setMenuVisible(true);
     };
 
-    const adjustedMenuPosition = {
-        top: menuPosition.y + menuDimensions.height > screenHeight
-            ? screenHeight - menuDimensions.height - 10
-            : menuPosition.y,
-        left: menuPosition.x + menuDimensions.width > screenWidth
-            ? screenWidth - menuDimensions.width - 10
-            : menuPosition.x,
-    };
-
-
-    const handleAddBoard = () => {
+    const handleCreateBoard = () => {
         if (!newBoardName.trim() || !newBoardThumbnail.trim()) {
             alert('Please fill in all fields.');
             return;
@@ -51,170 +39,100 @@ const HomeScreen = ({ navigation }) => {
 
         const newBoard = {
             id: boards.length + 1,
-            name: newBoardName,
-            thumbnailPhoto: newBoardThumbnail,
+            name: newBoardName.trim(),
+            thumbnailPhoto: newBoardThumbnail.trim(),
         };
 
         createBoard(newBoard);
         setNewBoardName('');
         setNewBoardThumbnail('');
         setIsModalVisible(false);
+    };
 
+    const handleEditBoard = () => {
+        setEditBoardName(selectedBoard.name);
+        setEditBoardThumbnail(selectedBoard.thumbnailPhoto);
+        setIsEditModalVisible(true);
+        setMenuVisible(false);
+    };
+
+    const handleSaveBoard = () => {
+        if (!editBoardName.trim() || !editBoardThumbnail.trim()) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const updatedBoard = {
+            name: editBoardName.trim(),
+            thumbnailPhoto: editBoardThumbnail.trim(),
+        };
+
+        updateBoard(selectedBoard.id, updatedBoard);
+        setIsEditModalVisible(false);
+    };
+
+    const handleDeleteBoard = () => {
+        deleteBoard(selectedBoard.id);
+        setMenuVisible(false);
     };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <Text style={styles.header}>Your boards</Text>
-
-        {/*Boards*/}
+            <Text style={styles.header}>Your Boards</Text>
             <FlatList
                 data={boards}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-
-                    <TouchableOpacity
-                        style={styles.boardItem}
-                        onPress={() => navigation.navigate('BoardDetail', { boardId: item.id })}
-                    >
-                        <Image
-                            source={{ uri: item.thumbnailPhoto }}
-                            style={styles.thumbnail}
-                        />
-                {/*Board name*/}
-                        <Text style={styles.boardButtonText}>{item.name}</Text>
-
-                {/*More options*/}
-                        <TouchableOpacity
-                            style={styles.optionsContainer}
-                            onPress={(event) => handlePressOptions(event)}>
-                            <MaterialIcons
-                                style={styles.threeDots}
-                                name="more-vert"
-                                size={32}
-                            />
-                        </TouchableOpacity>
-                    </TouchableOpacity>
+                    <BoardItem
+                        board={item}
+                        onView={(id) => navigation.navigate('BoardDetail', { boardId: id })}
+                        onOptionsPress={(event) => handlePressOptions(event, item)}
+                    />
                 )}
-
                 contentContainerStyle={styles.flatListContainer}
-
             />
 
-        {/*Modal for more options*/}
-            <Modal
-                visible={isOptionsVisible}
-                transparent={true}
-                animationType='none'
-                onRequestClose={() => setIsOptionsVisible(false)}
-            >
-                <TouchableOpacity
-                    style={{ flex: 1 }}>
-                    {isOptionsVisible && (
-                        <View
-                            style={[
-                                styles.optionsMenu,
-                                {
-                                    top: adjustedMenuPosition.top,
-                                    left: adjustedMenuPosition.left,
-                                },
-                            ]}
-                            onLayout={(event) => {
-                                const { width, height } = event.nativeEvent.layout;
-                                setMenuDimensions({ width, height });
-                            }}
-                        >
-                            <TouchableOpacity onPress={() => console.log('Edit')} style={styles.menuOption}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <MaterialIcons
-                                        name="edit"
-                                        size={24}
-                                        color="#9E9E9E"
-                                        style={{ marginRight: 8 }}
-                                    />
-                                    <Text style={styles.menuItemText}>Edit</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => console.log('Delete')} style={styles.menuOption}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <MaterialIcons
-                                        name="delete"
-                                        size={24}
-                                        color="#9E9E9E"
-                                        style={{ marginRight: 8 }}
-                                    />
-                                    <Text style={styles.menuItemText}>Delete</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => setIsOptionsVisible(false)} style={styles.menuOption}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <MaterialIcons
-                                        name="close"
-                                        size={24}
-                                        color="#9E9E9E"
-                                        style={{ marginRight: 8 }}
-                                    />
-                                    <Text style={styles.menuItemText}>Close</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                        </View>
-                    )}
-                </TouchableOpacity>
-            </Modal>
-
-            <View style={styles.line} />
-
-        {/*Create new board*/}
+            {/* Create New Board Button */}
             <TouchableOpacity
-                title="Create New Board"
-                onPress={() => setIsModalVisible(true)}>
-                <MaterialIcons
-                    style={styles.createBoardButton}
-                    name="add"
-                    size={32}
-                    color="#818181"
-                />
+                style={styles.createBoardButton}
+                onPress={() => setIsModalVisible(true)}
+            >
+                <MaterialIcons name="add" size={32} color="#fff" />
+                <Text style={styles.buttonText}>Create New Board</Text>
             </TouchableOpacity>
 
-
-        {/* Modal for creating a new board */}
-            <Modal
+            {/* Modal for Creating a New Board */}
+            <AddBoardModal
                 visible={isModalVisible}
-                transparent={true}
-                animationType="none"
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.createHeader}>
-                            Create New Board
-                        </Text>
-                        <TextInput
-                            placeholder="Board Name"
-                            placeholderTextColor={'#C4C4C4'}
-                            style={styles.input}
-                            value={newBoardName}
-                            onChangeText={setNewBoardName}
-                        />
-                        <TextInput
-                            placeholder="Thumbnail URL"
-                            placeholderTextColor={'#C4C4C4'}
-                            style={styles.input}
-                            value={newBoardThumbnail}
-                            onChangeText={setNewBoardThumbnail}
-                        />
-                        <View style={styles.createButtons}>
-                            <Button title="Cancel" onPress={() => setIsModalVisible(false)} color='#818181'/>
-                            <Button title="Create" onPress={handleAddBoard} color='#818181' />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+                onClose={() => setIsModalVisible(false)}
+                onSubmit={handleCreateBoard}
+                boardName={newBoardName}
+                setBoardName={setNewBoardName}
+                boardThumbnail={newBoardThumbnail}
+                setBoardThumbnail={setNewBoardThumbnail}
+            />
+
+            {/* Modal for Editing a Board */}
+            <EditBoardModal
+                visible={isEditModalVisible}
+                onClose={() => setIsEditModalVisible(false)}
+                onSubmit={handleSaveBoard}
+                boardName={editBoardName}
+                setBoardName={setEditBoardName}
+                boardThumbnail={editBoardThumbnail}
+                setBoardThumbnail={setEditBoardThumbnail}
+            />
+
+            {/* Options Menu for a Board */}
+            <OptionsMenu
+                visible={menuVisible}
+                position={menuPosition}
+                onClose={() => setMenuVisible(false)}
+                onEdit={handleEditBoard}
+                onDelete={handleDeleteBoard}
+            />
         </ScrollView>
     );
 };
-
 
 export default HomeScreen;
