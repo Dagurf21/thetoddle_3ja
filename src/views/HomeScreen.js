@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
-import BoardItem from '../components/BoardItem';
-import AddBoardModal from '../components/AddBoardModal';
-import EditBoardModal from '../components/EditBoardModal';
-import OptionsMenu from '../components/OptionsMenu';
+import BoardItem from '../components/BoardItem/BoardItem';
+import CreateBoardModal from '../components/CreateBoardModal/CreateBoardModal';
+import EditBoardModal from '../components/EditBoardModal/EditBoardModal';
+import OptionsMenu from '../components/OptionsMenu/OptionsMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from '../styles/GlobalStyles';
+import styles from '../views/styleviews';
 
 const HomeScreen = ({ navigation }) => {
     const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
@@ -102,7 +102,7 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             {/* Modal for Creating a New Board */}
-            <AddBoardModal
+            <CreateBoardModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onSubmit={handleCreateBoard}

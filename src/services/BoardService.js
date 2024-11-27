@@ -31,7 +31,7 @@ class BoardService {
     }
 
     // Create
-    addBoard(boardData) {
+    createBoard(boardData) {
         const newBoard = new BoardModel(
             this.boards.length + 1,
             boardData.name,
