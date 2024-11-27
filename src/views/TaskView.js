@@ -1,24 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
 import Task from '../components/Task';
 import TaskModal from '../components/AddTaskModal';
+import OptionsMenu from '../components/OptionsMenuTask';
+import MoveTaskModal from '../components/MoveTaskModal'; // Import MoveTaskModal
+import styles from '../styles/GlobalStyles';
 
 const TaskView = ({ route }) => {
     const { listId } = route.params;
-    const { getListById, updateTaskInList } = useDataContext();
+    const { getListById, updateTaskInList, getAllLists } = useDataContext();
 
     const list = getListById(listId);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedTask, setSelectedTask] = useState(null);
     const [newTaskName, setNewTaskName] = useState('');
     const [newTaskDescription, setNewTaskDescription] = useState('');
     const [isFinished, setIsFinished] = useState(false);
+    const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
 
     if (!list) {
         return (
-            <View style={styles.container}>
-                <Text style={styles.text}>List not found</Text>
+            <View style={styles.optionsContent}>
+                <Text style={styles.header}>List not found</Text>
             </View>
         );
     }
@@ -37,7 +44,7 @@ const TaskView = ({ route }) => {
         }
 
         const newTask = {
-            id: Date.now().toString(), // Unique ID for the task
+            id: Date.now().toString(),
             name: newTaskName.trim(),
             description: newTaskDescription.trim(),
             isFinished,
@@ -52,30 +59,98 @@ const TaskView = ({ route }) => {
         setIsModalVisible(false);
     };
 
+    const handleEditModal = () => {
+        setNewTaskName(selectedTask.name);
+        setNewTaskDescription(selectedTask.description);
+        setIsFinished(selectedTask.isFinished);
+
+        setMenuVisible(false);
+        setIsModalVisible(true);
+    };
+
+    const handleEditTask = () => {
+        if (!newTaskName.trim() || !newTaskDescription.trim()) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const updatedTasks = list.tasks.map((task) =>
+            task.id === selectedTask.id
+                ? { ...task, name: newTaskName.trim(), description: newTaskDescription.trim(), isFinished }
+                : task
+        );
+
+        updateTaskInList(listId, updatedTasks);
+        setIsModalVisible(false);
+    };
+
+    const handleDeleteTask = () => {
+        const updatedTasks = list.tasks.filter((task) => task.id !== selectedTask.id);
+        updateTaskInList(listId, updatedTasks);
+        setMenuVisible(false);
+    };
+
+    const handleMoveToTargetList = (targetListId) => {
+        const targetList = getListById(targetListId);
+        const currentList = getListById(listId);
+
+        if (!targetList) {
+            alert("Target list not found!");
+            return;
+        }
+
+        // Remove task from current list
+        const updatedCurrentTasks = currentList.tasks.filter(
+            (task) => task.id !== selectedTask.id
+        );
+
+        // Add task to target list
+        const movedTask = { ...selectedTask, listId: targetListId };
+        const updatedTargetTasks = [...targetList.tasks, movedTask];
+
+        // Update both lists
+        updateTaskInList(listId, updatedCurrentTasks);
+        updateTaskInList(targetListId, updatedTargetTasks);
+
+        setMenuVisible(false);
+    };
+
+
+    const handlePressOptions = (event, task) => {
+        const { pageX, pageY } = event.nativeEvent;
+        setMenuPosition({ x: pageX, y: pageY });
+        setSelectedTask(task);
+        setMenuVisible(true); // Show the menu
+    };
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{list.name}</Text>
+        <View style={styles.scrollContainer}>
+            <Text style={styles.header}>{list.name}</Text>
             <FlatList
                 data={list.tasks}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <Task task={item} toggleFinished={toggleFinished} />
+                    <Task
+                        task={item}
+                        toggleFinished={toggleFinished}
+                        onOptionsPress={(event) => handlePressOptions(event, item)}
+                    />
                 )}
-                ListEmptyComponent={<Text style={styles.text}>No tasks available.</Text>}
+                ListEmptyComponent={<Text style={styles.textCenter}>No tasks available.</Text>}
+                contentContainerStyle={styles.flatListContainer}
             />
-            {/* Add Task Button */}
             <TouchableOpacity
-                style={styles.addButton}
+                style={styles.createBoardButton}
                 onPress={() => setIsModalVisible(true)}
             >
-                <Text style={styles.addButtonText}>Add Task</Text>
+                <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
 
-            {/* Task Modal */}
+            {/* Task Modal for Creating and Editing Tasks */}
             <TaskModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
-                onSubmit={handleCreateTask}
+                onSubmit={selectedTask ? handleEditTask : handleCreateTask}
                 taskName={newTaskName}
                 setTaskName={setNewTaskName}
                 taskDescription={newTaskDescription}
@@ -83,38 +158,26 @@ const TaskView = ({ route }) => {
                 isFinished={isFinished}
                 setIsFinished={setIsFinished}
             />
+
+            {/* Options Menu */}
+            <OptionsMenu
+                visible={menuVisible}
+                position={menuPosition}
+                onClose={() => setMenuVisible(false)}
+                onEdit={handleEditModal}
+                onDelete={handleDeleteTask}
+                onMove={() => setIsMoveModalVisible(true)} // Pass the correct move handler here
+            />
+
+            {/* Move Task Modal */}
+            <MoveTaskModal
+                visible={isMoveModalVisible}
+                onClose={() => setIsMoveModalVisible(false)}
+                lists={getAllLists().filter((l) => l.id !== listId)} // Exclude current list
+                onMove={handleMoveToTargetList}
+            />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#f8f9fa',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    text: {
-        fontSize: 16,
-        textAlign: 'center',
-        marginVertical: 8,
-    },
-    addButton: {
-        marginTop: 16,
-        backgroundColor: '#007bff',
-        padding: 16,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    addButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-});
 
 export default TaskView;

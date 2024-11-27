@@ -208,6 +208,10 @@ export const DataProvider = ({ children }) => {
         });
     };
 
+    const getAllLists = () => {
+        return state.boards.flatMap((board) => board.lists);
+    };
+
     const deleteTask = (taskId) => {
         setState((prevState) => {
             for (const board of prevState.boards) {
@@ -236,6 +240,7 @@ export const DataProvider = ({ children }) => {
                 deleteBoard,
                 deleteList,
                 deleteTask,
+                getAllLists
             }}
         >
             {children}
