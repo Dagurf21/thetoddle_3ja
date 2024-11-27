@@ -4,7 +4,8 @@ import HomeScreen from '../views/HomeScreen';
 import BoardDetailScreen from '../views/BoardDetailScreen'; // Displays details of a specific board
 import AddBoardScreen from '../views/AddBoardScreen';       // Adds a new board
 import LoadingScreen from '../views/LoadingScreen';         // Displays a loading screen
-import TaskView from '../views/TaskView';              // Displays tasks for a specific list
+import TaskView from '../views/TaskView';
+import AddTaskScreen from "../views/AddTaskScreen";              // Displays tasks for a specific list
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,13 @@ const AppNavigator = () => {
                 name="AddBoard"
                 component={AddBoardScreen}
                 options={{ title: 'Add New Board' }}
+            />
+
+            {/* Add new Task screen*/}
+            <Stack.Screen
+                name="AddTask"
+                component={AddTaskScreen}
+                options={{ title: 'Add New Task' }}
             />
         </Stack.Navigator>
     );
