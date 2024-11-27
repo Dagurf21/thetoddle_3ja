@@ -13,7 +13,8 @@ const initializeModels = (data) => {
             taskData.name,
             taskData.description,
             taskData.isFinished,
-            taskData.listId
+            taskData.listId,
+            taskData.dueDate // Include dueDate
         );
         if (!map[taskData.listId]) {
             map[taskData.listId] = [];
@@ -21,6 +22,9 @@ const initializeModels = (data) => {
         map[taskData.listId].push(task);
         return map;
     }, {});
+
+    // Flatten all tasks into a single array
+    const allTasks = Object.values(tasksByListId).flat();
 
     // Creating lists based on boardId of list
     const listsByBoardId = data.lists.reduce((map, listData) => {
@@ -39,7 +43,7 @@ const initializeModels = (data) => {
     }, {});
 
     // Creating boards with lists
-    return data.boards.map(
+    const boards = data.boards.map(
         (boardData) =>
             new Board(
                 boardData.id,
@@ -48,16 +52,25 @@ const initializeModels = (data) => {
                 listsByBoardId[boardData.id] || []
             )
     );
+
+    return { boards, allTasks }; // Return both boards and allTasks
 };
 
 // Initialize data
-const boards = initializeModels(data);
+//const { boards, allTasks } = initializeModels(data);
+
 
 // Context setup
 const DataContext = createContext(null);
 
 export const DataProvider = ({ children }) => {
-    const [state, setState] = useState({ boards });
+    const { boards, allTasks } = initializeModels(data); // Initialize boards and tasks here
+
+    // Initialize state inside the component
+    const [state, setState] = useState({
+        boards,   // Boards initialized
+        allTasks, // All tasks initialized
+    });
 
     // Create
     const createBoard = (newBoard) => {
@@ -94,20 +107,46 @@ export const DataProvider = ({ children }) => {
             );
             if (board) {
                 const list = board.lists.find((l) => l.id === listId);
+
                 const task = new Task(
                     newTask.id,
                     newTask.name,
                     newTask.description,
-                    false,
-                    listId
+                    false, // Default is not finished
+                    listId,
+                    newTask.dueDate
                 );
+
                 list.tasks.push(task);
+
+                // Add to allTasks
+                return {
+                    boards: [...prevState.boards],
+                    allTasks: [...prevState.allTasks, task],
+                };
             }
-            return { boards: [...prevState.boards] };
+            return prevState;
         });
     };
 
+
     // Read
+    const getTasksByDate = (date) => {
+        return state.allTasks.filter((task) => task.dueDate === date);
+    };
+
+    const getMarkedDates = () => {
+        return state.allTasks.reduce((acc, task) => {
+            if (task.dueDate) {
+                acc[task.dueDate] = {
+                    marked: true,
+                    dotColor: task.isFinished ? "green" : "red", // Reflect task completion
+                };
+            }
+            return acc;
+        }, {});
+    };
+
     const getBoardById = (boardId) => {
         return state.boards.find((board) => board.id === boardId);
     };
@@ -158,35 +197,42 @@ export const DataProvider = ({ children }) => {
 
     const updateTask = (taskId, updatedData) => {
         setState((prevState) => {
-            const task = getTaskById(taskId);
-            if (task) {
-                task.name = updatedData.name || task.name;
-                task.description =
-                    updatedData.description || task.description;
-                task.isFinished =
-                    updatedData.isFinished !== undefined
-                        ? updatedData.isFinished
-                        : task.isFinished;
-            }
-            return { boards: [...prevState.boards] };
+            const updatedBoards = prevState.boards.map((board) => ({
+                ...board,
+                lists: board.lists.map((list) => ({
+                    ...list,
+                    tasks: list.tasks.map((task) =>
+                        task.id === taskId ? { ...task, ...updatedData } : task
+                    ),
+                })),
+            }));
+
+            const updatedAllTasks = prevState.allTasks.map((task) =>
+                task.id === taskId ? { ...task, ...updatedData } : task
+            );
+
+            return { boards: updatedBoards, allTasks: updatedAllTasks };
         });
     };
+
 
     // TODO: Needlessly complicated look into simplifying
     const updateTaskInList = (listId, updatedTasks) => {
         setState((prevState) => {
-            const updatedBoards = prevState.boards.map((board) => {
-                // Check if the board contains the list
-                const updatedLists = board.lists.map((list) => {
-                    if (list.id === listId) {
-                        // Update the tasks of the matched list
-                        return { ...list, tasks: updatedTasks };
-                    }
-                    return list;
-                });
-                return { ...board, lists: updatedLists };
+            const updatedBoards = prevState.boards.map((board) => ({
+                ...board,
+                lists: board.lists.map((list) =>
+                    list.id === listId ? { ...list, tasks: updatedTasks } : list
+                ),
+            }));
+
+            // Update allTasks to reflect changes in the specific task
+            const updatedAllTasks = prevState.allTasks.map((task) => {
+                const updatedTask = updatedTasks.find((t) => t.id === task.id);
+                return updatedTask ? updatedTask : task;
             });
-            return { boards: updatedBoards };
+
+            return { boards: updatedBoards, allTasks: updatedAllTasks };
         });
     };
 
@@ -214,14 +260,22 @@ export const DataProvider = ({ children }) => {
 
     const deleteTask = (taskId) => {
         setState((prevState) => {
-            for (const board of prevState.boards) {
-                for (const list of board.lists) {
-                    list.tasks = list.tasks.filter((t) => t.id !== taskId);
-                }
-            }
-            return { boards: [...prevState.boards] };
+            const updatedBoards = prevState.boards.map((board) => ({
+                ...board,
+                lists: board.lists.map((list) => ({
+                    ...list,
+                    tasks: list.tasks.filter((task) => task.id !== taskId),
+                })),
+            }));
+
+            const updatedAllTasks = prevState.allTasks.filter(
+                (task) => task.id !== taskId
+            );
+
+            return { boards: updatedBoards, allTasks: updatedAllTasks };
         });
     };
+
 
     return (
         <DataContext.Provider
@@ -233,6 +287,8 @@ export const DataProvider = ({ children }) => {
                 getBoardById,
                 getListById,
                 getTaskById,
+                getTasksByDate,
+                getMarkedDates,
                 updateBoard,
                 updateList,
                 updateTask,

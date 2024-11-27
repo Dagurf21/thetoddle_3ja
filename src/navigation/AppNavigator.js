@@ -5,7 +5,8 @@ import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen'; //
 import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen';       // Adds a new board
 import LoadingScreen from '../views/LoadingScreen/LoadingScreen';         // Displays a loading screen
 import TaskView from '../views/TaskView/TaskView';
-import AddTaskScreen from "../views/AddTaskScreen/AddTaskScreen";              // Displays tasks for a specific list
+import AddTaskScreen from "../views/AddTaskScreen/AddTaskScreen";
+import CalendarView from "../views/CalendarView/CalendarView";              // Displays tasks for a specific list
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,12 @@ const AppNavigator = () => {
                 component={AddTaskScreen}
                 options={{ title: 'Add New Task' }}
             />
+
+            {/* Calendar Screen */}
+            <Stack.Screen
+                name="Calendar"
+                component={CalendarView} />
+
         </Stack.Navigator>
     );
 };
