@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../views/HomeScreen';
 import BoardDetailScreen from '../views/BoardDetailScreen'; // Displays details of a specific board
-import AddBoardScreen from '../views/AddBoardScreen';       // Adds a new board
+import CreateBoardScreen from '../views/CreateBoardScreen';       // Adds a new board
 import LoadingScreen from '../views/LoadingScreen';         // Displays a loading screen
 import TaskView from '../views/TaskView';
 import AddTaskScreen from "../views/AddTaskScreen";              // Displays tasks for a specific list
@@ -42,8 +42,8 @@ const AppNavigator = () => {
 
             {/* Add Board Screen */}
             <Stack.Screen
-                name="AddBoard"
-                component={AddBoardScreen}
+                name="CreateBoard"
+                component={CreateBoardScreen}
                 options={{ title: 'Add New Board' }}
             />
 

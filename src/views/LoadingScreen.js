@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import styles from './styleviews';
 
 const LoadingScreen = ({ navigation }) => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Welcome to the App!</Text>
+        <View style={styles.loadingScreencontainer}>
+            <Text style={styles.loadingScreenText}>Welcome to the App!</Text>
             <Button
                 title="Go to Home"
                 onPress={() => navigation.navigate('Home')}
@@ -13,16 +14,5 @@ const LoadingScreen = ({ navigation }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 18,
-        marginBottom: 20,
-    },
-});
 
 export default LoadingScreen;
