@@ -1,4 +1,4 @@
-### Run Expo
+## Run Expo
 1. To run expo go into the directory of the app you want to run.
 ```bash
 cd <example-app>
@@ -34,7 +34,7 @@ npx expo start
    6. Go to your browser and open `http://localhost:8081`   
 
 
-### Key design notes
+## Key design notes
 1. Components <br>
     **-** Each screent or feature is modularize into componenets <br>
     **-** Reusable components are place in `/shared` folder
@@ -60,30 +60,30 @@ npx expo start
    **-** Centralized styling ensures consistency across the app with a single source of truth in `GlobalStyles.js.`
 
 
-## 1. Root Files
+## Root Files
 
-### 1.1 `App.js`
+### `App.js`
 The main entry point of the app.  
 Initializes navigation (using AppNavigator).  
 Wraps the app with any global providers like DataContext.
 
-### 1.2 `app.json`
+### `app.json`
 Expo configuration file.  
 Defines app metadata, such as app name, slug, icons, and platform-specific settings.
 
-### 1.3 `package.json`
+### `package.json`
 Manages dependencies, scripts, and versioning for the project.  
 Contains scripts for running the app (expo start), building (expo build), and linting/testing.
 
-### 1.4 `data.json`
+### `data.json`
 Holds pre-populated in-memory data for boards, lists, and tasks.  
 Loaded into memory on app startup using DataService.
 
-### 1.5 README.md
+### README.md
 Documentation for the project.  
 Describes how to set up, run, and develop the app.
 
-## 2. /assets
+## /assets
 
 ### `/assets/images` & `/assets/icons`
 Store static assets like board thumbnails, list icons, and any additional media files.
