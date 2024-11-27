@@ -1,3 +1,6 @@
+# The Toddle
+T-488-MAPP - Þróun Smáforrita - 2024 Haustönn - Háskólinn í Reykjavík
+
 # Table of contents
 [Run Expo](#run-expo) <br>
 [Install Guide](#install-guide) <br>
