@@ -1,15 +1,21 @@
 import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
-    loadingScreencontainer: {
+    loadingScreenContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
     loadingScreenText: {
-        fontSize: 18,
+        fontSize: 30,
         fontWeight: 'bold',
-        marginBottom: 20
+        // marginBottom: 20
+    },
+    logo: {
+        width: 600,
+        height: 200,
+        // resizeMode: 'cover',
+        margin: 10,
     }
 });
 
