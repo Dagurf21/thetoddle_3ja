@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import OptionsMenu from './OptionsMenu';
-import EditListModal from '../components/EditListModal';
-import { useDataContext } from '../services/DataContext';
+import OptionsMenu from '../OptionsMenu/OptionsMenu';
+import EditListModal from '../EditListModal/EditListModal';
+import { useDataContext } from '../../services/DataContext';
+import styles from './styles'
 
 const List = ({ list }) => {
     const navigation = useNavigation();
@@ -98,40 +99,5 @@ const List = ({ list }) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    listContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 8,
-        borderRadius: 8,
-        backgroundColor: '#f8f9fa', // Neutral background
-        borderWidth: 1,
-        borderColor: '#ddd',
-        overflow: 'hidden', // Ensure the stripe stays within the border radius
-    },
-    colorStripe: {
-        width: 10, // Stripe width for the flag
-        height: '100%', // Extend the stripe to the full height of the box
-    },
-    listContent: {
-        flex: 1, // Allow the text to fill the remaining space
-        padding: 16, // Add padding around the text
-    },
-    listName: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    optionsButton: {
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    optionsText: {
-        fontSize: 18,
-        color: '#666',
-    },
-});
 
 export default List;

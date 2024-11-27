@@ -2,7 +2,8 @@
 
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
-import {useDataContext} from "../services/DataContext";
+import {useDataContext} from "../../services/DataContext";
+
 
 const BoardList = () => {
     const { boards } = useDataContext();

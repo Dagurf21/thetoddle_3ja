@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import List from './List';
+import { View } from 'react-native';
+import List from '../List/List';
+import styles from './styles';
 
 
 const ListsSection = ({ lists }) => {
@@ -12,11 +13,5 @@ const ListsSection = ({ lists }) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 16,
-    },
-});
 
 export default ListsSection;

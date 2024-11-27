@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from '../styles/GlobalStyles';
+import styles from './styles';
 
 const OptionsMenu = ({ visible, position, onClose, onEdit, onDelete, onMove }) => { // Add onMove here
     const [menuDimensions, setMenuDimensions] = useState({ width: 0, height: 0 });

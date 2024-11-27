@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../services/DataContext';
-import BoardItem from '../components/BoardItem';
-import CreateBoardModal from '../components/CreateBoardModal';
-import EditBoardModal from '../components/EditBoardModal';
-import OptionsMenu from '../components/OptionsMenu';
+import BoardItem from '../components/BoardItem/BoardItem';
+import CreateBoardModal from '../components/CreateBoardModal/CreateBoardModal';
+import EditBoardModal from '../components/EditBoardModal/EditBoardModal';
+import OptionsMenu from '../components/OptionsMenu/OptionsMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from '../views/styleviews';
 
