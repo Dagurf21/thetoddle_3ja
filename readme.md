@@ -1,3 +1,39 @@
+### Run Expo
+1. To run expo go into the directory of the app you want to run.
+```bash
+cd <example-app>
+```
+2. Run:
+```bash
+npx expo start
+```
+
+## Install guide
+### Initializing Repository on Your PC
+1. On the CLI on your PC, navigate to the directory where you want to place the repo (e.g., `/Desktop`).
+2. Run:  
+   ```
+   git clone https://github.com/Dagurf21/T_488_MAPP.git
+   ```
+3. There should now be a folder called T_488_MAPP. Go into that folder
+    ```
+   cd T_488_MAPP
+   ```
+4. Install npm and expo-cli.
+    ```
+   npm install
+   npm install -g expo-cli
+    ```
+
+5. Check if everything works by executing the following lines.
+    ```
+   cd the-toddler
+   npx expo start
+    ```
+
+   6. Go to your browser and open `http://localhost:8081`   
+
+
 ### Key design notes
 1. Components <br>
     **-** Each screent or feature is modularize into componenets <br>
