@@ -6,6 +6,7 @@ import TaskModal from '../components/AddTaskModal/AddTaskModal';
 import OptionsMenu from '../components/OptionsMenuTask/OptionsMenuTask';
 import MoveTaskModal from '../components/MoveTaskModal/MoveTaskModal'; // Import MoveTaskModal
 import styles from '../styles/GlobalStyles';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const TaskView = ({ route }) => {
     const { listId } = route.params;
@@ -143,6 +144,7 @@ const TaskView = ({ route }) => {
                 style={styles.createBoardButton}
                 onPress={() => setIsModalVisible(true)}
             >
+                <MaterialIcons name="add" size={32} color="#fff" />
                 <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
 
