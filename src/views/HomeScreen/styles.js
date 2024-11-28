@@ -171,7 +171,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20
-    }
+    },
+    boardDescription: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 4,
+    },
+
 });
 
 export default styles;

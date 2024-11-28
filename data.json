@@ -3,16 +3,19 @@
         {
             "id": 1,
             "name": "Trip to the Netherlands!",
+            "description": "Going to the Netherlands to do a bunch of cool and exciting stuff !",
             "thumbnailPhoto": "https://images.prismic.io/indiecampers-demo/9f34856d-05da-4afb-832f-d3a36de83b7f_Hero---Kinderdijk.jpg"
         },
         {
             "id": 2,
             "name": "Boring stuff",
+            "description": "Some really really really boring stuff i do not want to do",
             "thumbnailPhoto": "https://hbr.org/resources/images/article_assets/2019/06/Jun19_05_1040477378.jpg"
         },
         {
             "id": 3,
             "name": "Bucket list",
+            "description": "Things i want to do before i pass...",
             "thumbnailPhoto": "https://images-na.ssl-images-amazon.com/images/I/61fq9A8jEGL._SL1500_.jpg"
         }
     ],
