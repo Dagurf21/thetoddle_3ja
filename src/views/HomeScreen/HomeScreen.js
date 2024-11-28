@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, FlatList, TouchableOpacity, View } from 'react-native';
 import { useDataContext } from '../../services/DataContext';
 import BoardItem from '../../components/BoardItem/BoardItem';
 import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
@@ -84,7 +84,20 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <Text style={styles.header}>Your Boards</Text>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>Your Boards</Text>
+
+                {/* Open calendar button */}
+                <TouchableOpacity
+                    style={styles.calendarButton}
+                    onPress={() => navigation.navigate('Calendar')}
+                >
+                    <MaterialIcons name="calendar-today" size={24} color="#000" />
+                    <Text style={styles.calendarText}>Calendar</Text>
+                </TouchableOpacity>
+            </View>
+
+
             <FlatList
                 data={boards}
                 keyExtractor={(item) => item.id.toString()}
@@ -107,14 +120,6 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.buttonText}>Create New Board</Text>
             </TouchableOpacity>
 
-            {/* Open calendar screen */}
-            <TouchableOpacity
-                style={styles.createBoardButton}
-                onPress={() => navigation.navigate('Calendar')}
-            >
-                <MaterialIcons name="add" size={32} color="#fff" />
-                <Text style={styles.buttonText}>Go to calendar</Text>
-            </TouchableOpacity>
 
             {/* Modal for Creating a New Board */}
             <CreateBoardModal

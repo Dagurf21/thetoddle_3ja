@@ -98,7 +98,23 @@ const AppNavigator = () => {
             {/* Calendar Screen */}
             <Stack.Screen
                 name="Calendar"
-                component={CalendarView} />
+                component={CalendarView}
+                options={({ navigation }) => ({
+                    title: 'Calendar',
+                    headerRight: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Home')}
+                            style={{ marginRight: 10 }}
+                        >
+                            <Image
+                                source={require('../../assets/logo.png')}
+                                style={styles.logo}
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+            />
+
 
         </Stack.Navigator>
     );
