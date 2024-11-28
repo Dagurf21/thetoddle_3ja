@@ -6,13 +6,32 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#f8f9fa',
     },
-    header: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
+
     flatListContainer: {
         paddingBottom: 16,
+    },
+// header
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 16,
+    },
+    headerText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    calendarButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 8,
+        backgroundColor: '#DFDFDF',
+        borderRadius: 8,
+    },
+    calendarText: {
+        color: '#000',
+        fontSize: 16,
+        marginLeft: 8,
     },
 // Board
     boardButtonText: {
@@ -162,7 +181,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 8,
     }, /* <-- Special styles for loading screen --> */
-    loadingScreencontainer: {
+    loadingScreenContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -171,7 +190,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20
-    }
+    },
 });
 
 export default styles;
