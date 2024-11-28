@@ -2,9 +2,10 @@
 import List from './ListModel.js';
 
 class Board {
-    constructor(id, name, thumbnailPhoto, lists = []) {
+    constructor(id, name, description, thumbnailPhoto, lists = []) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.thumbnailPhoto = thumbnailPhoto;
         this.lists = lists.map(
             list => new List(list.id, list.name, list.color, list.boardId, list.tasks)

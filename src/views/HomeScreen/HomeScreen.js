@@ -6,7 +6,7 @@ import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal
 import EditBoardModal from '../../components/EditBoardModal/EditBoardModal';
 import OptionsMenu from '../../components/OptionsMenu/OptionsMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from './styles';
+import styles from "./styles";
 
 const HomeScreen = ({ navigation }) => {
     const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
@@ -18,11 +18,13 @@ const HomeScreen = ({ navigation }) => {
     // State for creating a new board
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
+    const [newBoardDescription, setNewBoardDescription] = useState('');
 
     // State for editing an existing board
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editBoardName, setEditBoardName] = useState('');
     const [editBoardThumbnail, setEditBoardThumbnail] = useState('');
+    const [editBoardDescription, setEditBoardDescription] = useState('');
 
     const handlePressOptions = (event, board) => {
         const { pageX, pageY } = event.nativeEvent;
@@ -32,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
     };
 
     const handleCreateBoard = () => {
-        if (!newBoardName.trim() || !newBoardThumbnail.trim()) {
+        if (!newBoardName.trim() || !newBoardThumbnail.trim() || !newBoardDescription.trim()) {
             alert('Please fill in all fields.');
             return;
         }
@@ -41,23 +43,26 @@ const HomeScreen = ({ navigation }) => {
             id: boards.length + 1,
             name: newBoardName.trim(),
             thumbnailPhoto: newBoardThumbnail.trim(),
+            description: newBoardDescription.trim(),
         };
 
         createBoard(newBoard);
         setNewBoardName('');
         setNewBoardThumbnail('');
+        setNewBoardDescription('');
         setIsModalVisible(false);
     };
 
     const handleEditBoard = () => {
         setEditBoardName(selectedBoard.name);
         setEditBoardThumbnail(selectedBoard.thumbnailPhoto);
+        setEditBoardDescription(selectedBoard.description);
         setIsEditModalVisible(true);
         setMenuVisible(false);
     };
 
     const handleSaveBoard = () => {
-        if (!editBoardName.trim() || !editBoardThumbnail.trim()) {
+        if (!editBoardName.trim() || !editBoardThumbnail.trim() || !editBoardDescription.trim()) {
             alert('Please fill in all fields.');
             return;
         }
@@ -65,6 +70,7 @@ const HomeScreen = ({ navigation }) => {
         const updatedBoard = {
             name: editBoardName.trim(),
             thumbnailPhoto: editBoardThumbnail.trim(),
+            description: editBoardDescription.trim(),
         };
 
         updateBoard(selectedBoard.id, updatedBoard);
@@ -124,6 +130,8 @@ const HomeScreen = ({ navigation }) => {
                 setBoardName={setNewBoardName}
                 boardThumbnail={newBoardThumbnail}
                 setBoardThumbnail={setNewBoardThumbnail}
+                boardDescription={newBoardDescription}
+                setBoardDescription={setNewBoardDescription} // New props for description
             />
 
             {/* Modal for Editing a Board */}
@@ -135,6 +143,8 @@ const HomeScreen = ({ navigation }) => {
                 setBoardName={setEditBoardName}
                 boardThumbnail={editBoardThumbnail}
                 setBoardThumbnail={setEditBoardThumbnail}
+                boardDescription={editBoardDescription}
+                setBoardDescription={setEditBoardDescription} // New props for description
             />
 
             {/* Options Menu for a Board */}

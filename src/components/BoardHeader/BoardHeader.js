@@ -7,6 +7,7 @@ const BoardHeader = ({ board }) => {
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.title}>{board.name}</Text>
+            <Text style={styles.description}>{board.description}</Text>
             {board.thumbnailPhoto ? (
                 <Image source={{ uri: board.thumbnailPhoto }} style={styles.image} />
             ) : (

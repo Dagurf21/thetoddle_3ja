@@ -48,6 +48,7 @@ const initializeModels = (data) => {
             new Board(
                 boardData.id,
                 boardData.name,
+                boardData.description,
                 boardData.thumbnailPhoto,
                 listsByBoardId[boardData.id] || []
             )
@@ -77,6 +78,7 @@ export const DataProvider = ({ children }) => {
         const board = new Board(
             newBoard.id,
             newBoard.name,
+            newBoard.description,
             newBoard.thumbnailPhoto,
             []
         );

@@ -11,6 +11,7 @@ class BoardService {
             board => new Board(
                 board.id,
                 board.name,
+                board.description,
                 board.thumbnailPhoto
             ));
         this.lists = data.lists.map(
@@ -35,6 +36,7 @@ class BoardService {
         const newBoard = new BoardModel(
             this.boards.length + 1,
             boardData.name,
+            boardData.description,
             boardData.thumbnailPhoto
         );
         this.boards.push(newBoard);
@@ -55,6 +57,7 @@ class BoardService {
         const board = this.getBoardById(boardId);
         if (board) {
             board.name = updatedData.name || board.name;
+            board.description = updatedData.description || updatedData.description;
             board.thumbnailPhoto = updatedData.thumbnailPhoto || board.thumbnailPhoto;
             return board;
         }

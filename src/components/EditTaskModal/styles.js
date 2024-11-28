@@ -8,59 +8,48 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '90%',
+        width: '80%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
     },
-    modalTitle: {
-        fontSize: 18,
+    modalHeader: {
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 16,
     },
     input: {
-        height: 40,
-        borderColor: '#ccc',
         borderWidth: 1,
-        borderRadius: 5,
+        borderColor: '#ccc',
+        borderRadius: 4,
+        padding: 8,
+        marginBottom: 12,
+    },
+    datePickerButton: {
+        padding: 12,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 8,
+        marginBottom: 12,
+        alignItems: 'center',
+    },
+    datePickerText: {
+        fontSize: 16,
+        color: '#333',
+    },
+    toggleButton: {
+        padding: 12,
+        backgroundColor: '#e0e0e0',
+        borderRadius: 8,
         marginBottom: 16,
-        paddingHorizontal: 10,
+        alignItems: 'center',
     },
-    textArea: {
-        height: 80,
-        textAlignVertical: 'top',
+    toggleText: {
+        fontSize: 16,
+        color: '#333',
     },
-    switchContainer: {
+    modalButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 16,
-    },
-    buttonContainer: {
-        flexDirection: "row",
-        justifyContent: 'space-between',
-    },
-    button: {
-        width: 100,
-        paddingVertical: 8,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginHorizontal: 8,
-    },
-    cancelButton: {
-        backgroundColor: '#007bff',
-    },
-    submitButton: {
-        backgroundColor: '#007bff',
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
     },
 });
 

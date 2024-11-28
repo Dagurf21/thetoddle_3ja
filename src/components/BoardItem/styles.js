@@ -1,9 +1,16 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     boardButtonText: {
         fontSize: 20,
         color: '#333',
+        textAlign: 'left',
+        fontFamily: 'Arial',
+        marginBottom: 4,
+    },
+    boardDescriptionText: {
+        fontSize: 14,
+        color: '#666',
         textAlign: 'left',
         fontFamily: 'Arial',
     },
@@ -25,13 +32,9 @@ const styles = StyleSheet.create({
     dotsButton: {
         padding: 8,
     },
-    dotsText: {
-        fontSize: 24,
-        color: '#000',
-    },
     boardDetails: {
         flex: 1,
-    }
+    },
 });
 
 export default styles;
