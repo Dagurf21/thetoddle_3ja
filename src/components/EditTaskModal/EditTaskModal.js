@@ -1,63 +1,90 @@
 import React, { useState } from 'react';
-import {Modal, View, Text, TextInput, Switch, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import { View, Text, TextInput, Button, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const TaskModal = ({
                        visible,
                        onClose,
                        onSubmit,
-                       taskName = '',
+                       taskName,
                        setTaskName,
-                       taskDescription = '',
+                       taskDescription,
                        setTaskDescription,
-                       isFinished = false,
+                       isFinished,
                        setIsFinished,
+                       dueDate,
+                       setDueDate,
                    }) => {
+    const [showDatePicker, setShowDatePicker] = useState(false); // For displaying date picker
+
+    const handleDateChange = (event, selectedDate) => {
+        setShowDatePicker(false); // Close the picker
+        if (selectedDate) {
+            setDueDate(selectedDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+        }
+    };
+
     return (
         <Modal
             visible={visible}
             transparent={true}
-            animationType="none"
+            animationType="slide"
             onRequestClose={onClose}
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.modalTitle}>Edit Task</Text>
+                    <Text style={styles.modalHeader}>Task Details</Text>
+
+                    {/* Task Name Input */}
                     <TextInput
                         style={styles.input}
                         placeholder="Task Name"
-                        placeholderTextColor="#C4C4C4"
                         value={taskName}
                         onChangeText={setTaskName}
                     />
+
+                    {/* Task Description Input */}
                     <TextInput
-                        style={[styles.input, styles.textArea]}
+                        style={styles.input}
                         placeholder="Task Description"
-                        placeholderTextColor="#C4C4C4"
                         value={taskDescription}
                         onChangeText={setTaskDescription}
-                        multiline={true}
                     />
-                    <View style={styles.switchContainer}>
-                        <Text>Mark as Completed</Text>
-                        <Switch
-                            value={isFinished}
-                            onValueChange={setIsFinished}
+
+                    {/* Due Date Picker */}
+                    <TouchableOpacity
+                        style={styles.datePickerButton}
+                        onPress={() => setShowDatePicker(true)}
+                    >
+                        <Text style={styles.datePickerText}>
+                            {dueDate ? `Due Date: ${dueDate}` : 'Set Due Date'}
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/* Show DateTimePicker */}
+                    {showDatePicker && (
+                        <DateTimePicker
+                            value={dueDate ? new Date(dueDate) : new Date()}
+                            mode="date"
+                            display="default"
+                            onChange={handleDateChange}
                         />
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={[styles.button, styles.cancelButton]}
-                            onPress={onClose}
-                        >
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[styles.button, styles.submitButton]}
-                            onPress={onSubmit}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
+                    )}
+
+                    {/* Is Finished Toggle */}
+                    <TouchableOpacity
+                        style={styles.toggleButton}
+                        onPress={() => setIsFinished(!isFinished)}
+                    >
+                        <Text style={styles.toggleText}>
+                            {isFinished ? 'Mark as Incomplete' : 'Mark as Complete'}
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/* Modal Buttons */}
+                    <View style={styles.modalButtons}>
+                        <Button title="Cancel" onPress={onClose} />
+                        <Button title="Save" onPress={onSubmit} />
                     </View>
                 </View>
             </View>
@@ -65,4 +92,4 @@ const TaskModal = ({
     );
 };
 
-export default TaskModal;
+export

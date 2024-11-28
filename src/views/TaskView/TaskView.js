@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useDataContext } from '../../services/DataContext';
 import Task from '../../components/Task/Task';
-import TaskModal from '../../components/AddTaskModal/AddTaskModal';
+import TaskModal from '../../components/EditAndCreateTaskModal/EditAndCreateModal'; // Unified modal
 import OptionsMenu from '../../components/OptionsMenuTask/OptionsMenuTask';
-import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal'; // Import MoveTaskModal
+import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import 'react-datepicker/dist/react-datepicker.css';
+
 import styles from './styles';
 
 const TaskView = ({ route }) => {
     const { listId } = route.params;
     const { getListById, updateTaskInList, getAllLists } = useDataContext();
     const list = getListById(listId);
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
@@ -19,6 +22,7 @@ const TaskView = ({ route }) => {
     const [newTaskName, setNewTaskName] = useState('');
     const [newTaskDescription, setNewTaskDescription] = useState('');
     const [isFinished, setIsFinished] = useState(false);
+    const [dueDate, setDueDate] = useState(''); // For task due date
     const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
 
     if (!list) {
@@ -42,11 +46,17 @@ const TaskView = ({ route }) => {
             return;
         }
 
+        if (!dueDate.trim()) {
+            alert('Please provide a due date.');
+            return;
+        }
+
         const newTask = {
             id: Date.now().toString(),
             name: newTaskName.trim(),
             description: newTaskDescription.trim(),
             isFinished,
+            dueDate: dueDate.trim(),
         };
 
         updateTaskInList(listId, [...list.tasks, newTask]);
@@ -55,32 +65,41 @@ const TaskView = ({ route }) => {
         setNewTaskName('');
         setNewTaskDescription('');
         setIsFinished(false);
+        setDueDate('');
         setIsModalVisible(false);
     };
 
     const handleEditModal = () => {
+        console.log("Opening Edit Modal");
+        console.log("Selected Task:", selectedTask);
         setNewTaskName(selectedTask.name);
         setNewTaskDescription(selectedTask.description);
         setIsFinished(selectedTask.isFinished);
-
+        setDueDate(selectedTask.dueDate || ''); // Populate dueDate if available
         setMenuVisible(false);
         setIsModalVisible(true);
     };
 
     const handleEditTask = () => {
-        if (!newTaskName.trim() || !newTaskDescription.trim()) {
+        if (!newTaskName.trim() || !newTaskDescription.trim() || !dueDate.trim()) {
             alert('Please fill in all fields.');
             return;
         }
 
         const updatedTasks = list.tasks.map((task) =>
             task.id === selectedTask.id
-                ? { ...task, name: newTaskName.trim(), description: newTaskDescription.trim(), isFinished }
+                ? {
+                    ...task,
+                    name: newTaskName.trim(),
+                    description: newTaskDescription.trim(),
+                    isFinished,
+                    dueDate: dueDate.trim(),
+                }
                 : task
         );
 
         updateTaskInList(listId, updatedTasks);
-        setIsModalVisible(false);
+        setIsModalVisible(false); // Close the modal
     };
 
     const handleDeleteTask = () => {
@@ -116,17 +135,16 @@ const TaskView = ({ route }) => {
 
     const handlePressOptions = (event, task) => {
         const { pageX, pageY } = event.nativeEvent;
+        console.log("Options Pressed:", task);
         setMenuPosition({ x: pageX, y: pageY });
         setSelectedTask(task);
         setMenuVisible(true); // Show the menu
     };
 
     const ProgressBar = ({ tasks }) => {
-        const completedTasks = tasks.filter(task => task.isFinished).length;
+        const completedTasks = tasks.filter((task) => task.isFinished).length;
         const totalTasks = tasks.length;
         const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-
-        console.log('Progress percentage:', progress); // Debugging
 
         return (
             <View style={styles.progressContainer}>
@@ -137,7 +155,6 @@ const TaskView = ({ route }) => {
             </View>
         );
     };
-
 
     return (
         <View style={styles.scrollContainer}>
@@ -163,13 +180,16 @@ const TaskView = ({ route }) => {
 
             <TouchableOpacity
                 style={styles.createBoardButton}
-                onPress={() => setIsModalVisible(true)}
+                onPress={() => {
+                    setIsModalVisible(true);
+                    setSelectedTask(null); // Ensure it's for creating, not editing
+                }}
             >
                 <MaterialIcons name="add" size={32} color="#fff" />
                 <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
 
-            {/* Task Modal for Creating and Editing Tasks */}
+            {/* Unified Task Modal */}
             <TaskModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
@@ -180,8 +200,9 @@ const TaskView = ({ route }) => {
                 setTaskDescription={setNewTaskDescription}
                 isFinished={isFinished}
                 setIsFinished={setIsFinished}
+                dueDate={dueDate}
+                setDueDate={setDueDate}
             />
-
             {/* Options Menu */}
             <OptionsMenu
                 visible={menuVisible}
@@ -189,7 +210,6 @@ const TaskView = ({ route }) => {
                 onClose={() => setMenuVisible(false)}
                 onEdit={handleEditModal}
                 onDelete={handleDeleteTask}
-                onMove={() => setIsMoveModalVisible(true)} // Pass the correct move handler here
             />
 
             {/* Move Task Modal */}
@@ -202,4 +222,5 @@ const TaskView = ({ route }) => {
         </View>
     );
 };
+
 export default TaskView;

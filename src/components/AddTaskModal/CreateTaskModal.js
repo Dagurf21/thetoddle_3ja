@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Modal, View, Text, TextInput, Switch, TouchableOpacity, Button,} from 'react-native';
 import styles from './styles'
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const TaskModal = ({
                        visible,
@@ -45,6 +46,26 @@ const TaskModal = ({
                             onValueChange={setIsFinished}
                         />
                     </View>
+                    
+                    {/* Due Date Picker */}
+                    <TouchableOpacity
+                        style={styles.datePickerButton}
+                        onPress={() => setShowDatePicker(true)}
+                    >
+                        <Text style={styles.datePickerText}>
+                            {dueDate ? `Due Date: ${dueDate}` : 'Set Due Date'}
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/* Show DateTimePicker */}
+                    {showDatePicker && (
+                        <DateTimePicker
+                            value={dueDate ? new Date(dueDate) : new Date()}
+                            mode="date"
+                            display="default"
+                            onChange={handleDateChange}
+                        />
+                    )}
 
                     <View style={styles.createButtons}>
                         <Button title="Cancel" onPress={onClose}  />
