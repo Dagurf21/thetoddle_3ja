@@ -186,6 +186,8 @@ Examples:
 
 ## Extra requirements
 Logo - A logo has been created for the system. Clicking on the logo, located in the top right corner, will navigate the user back to the home screen.
+
 Progress - A progress bar to visualise how many of the users tasks have compleated within each list.
+
 Back - A back button, positioned in the top-left corner, allows users to return to the previous screen they were on.
 
