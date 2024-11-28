@@ -166,9 +166,6 @@ Allows users to add, edit, or delete lists.
 Displays all tasks for a specific list using the Task component.  
 Allows users to add, edit, delete, or move tasks between lists.
 
-### `SettingsScreen.js (optional)`
-Allows customization of the app (e.g., themes, reset data).
-
 ## /services
 
 ### `DataService.js`
@@ -182,7 +179,6 @@ Provides utility functions.
 Examples:
 - `generateUniqueId()`: Generates unique IDs for new boards, lists, or tasks.
 - `filterDataByKey()`: Filters lists or tasks by boardId or listId.
-- 
 
 ## Extra requirements
 Logo - A logo has been created for the system. Clicking on the logo, located in the top right corner, will navigate the user back to the home screen.
