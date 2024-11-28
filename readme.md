@@ -189,5 +189,7 @@ Logo - A logo has been created for the system. Clicking on the logo, located in 
 
 Progress - A progress bar to visualise how many of the users tasks have compleated within each list.
 
+Calendar - A calendar that can be viewed by clicking the calander button in the top right corner at the homescreen. The calander showes the months and due dates for tasks, giving the user a quick overview of the upcoming deadlines.
+
 Back - A back button, positioned in the top-left corner, allows users to return to the previous screen they were on.
 
