@@ -6,6 +6,7 @@ T-488-MAPP - Þróun Smáforrita - 2024 Haustönn - Háskólinn í Reykjavík
 [Install Guide](#install-guide) <br>
 [Key Design Notes](#key-design-notes) <br>
 [Root Files](#root-files) <br>
+[Extra requirements](#extra-requirements) <br>
 
 
 ## Run Expo
@@ -181,3 +182,10 @@ Provides utility functions.
 Examples:
 - `generateUniqueId()`: Generates unique IDs for new boards, lists, or tasks.
 - `filterDataByKey()`: Filters lists or tasks by boardId or listId.
+- 
+
+### Extra requirements
+Logo - A logo has been created for the system. Clicking on the logo, located in the top right corner, will navigate the user back to the home screen.
+Progress - A progress bar to visualise how many of the users tasks have compleated within each list.
+Back - A back button, positioned in the top-left corner, allows users to return to the previous screen they were on.
+
