@@ -1,4 +1,3 @@
-// src/models/Board.js
 import List from './ListModel.js'
 
 class Board {

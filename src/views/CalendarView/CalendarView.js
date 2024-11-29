@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import styles from './styles'
 import { View, Text, FlatList } from 'react-native'
 import { Calendar } from 'react-native-calendars'
-import styles from './styles'
 import { useDataContext } from '../../services/DataContext'
 
 const CalendarView = () => {

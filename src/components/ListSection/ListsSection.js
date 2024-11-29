@@ -1,7 +1,7 @@
 import React from 'react'
+import styles from './styles'
 import { View } from 'react-native'
 import List from '../List/List'
-import styles from './styles'
 
 const ListsSection = ({ lists }) => {
     return (

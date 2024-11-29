@@ -1,4 +1,3 @@
-// src/models/List.js
 import Task from './TaskModel.js'
 
 class List {

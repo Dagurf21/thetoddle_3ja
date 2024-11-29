@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import styles from './styles'
 import { View, Text, TextInput, Modal, TouchableOpacity } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import styles from './styles'
 
 const TaskModal = ({
     visible,

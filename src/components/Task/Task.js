@@ -1,7 +1,7 @@
 import React from 'react'
+import styles from './styles'
 import { View, Text, TouchableOpacity } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import styles from './styles'
 
 const Task = ({ task, toggleFinished, onOptionsPress }) => {
     return (

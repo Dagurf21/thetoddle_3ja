@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native'
 
-const { width } = Dimensions.get('window'); // Get the screen width
+const { width } = Dimensions.get('window') // Get the screen width
 
 const styles = StyleSheet.create({
     loadingScreenContainer: {
@@ -15,9 +15,9 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: width * 0.9,
-        height: (width * 0.99) * 0.43, // Maintain aspect ratio (assuming the original aspect ratio is 600x200)
+        height: width * 0.99 * 0.43, // Maintain aspect ratio (assuming the original aspect ratio is 600x200)
         margin: 10,
-    }
-});
+    },
+})
 
-export default styles;
+export default styles

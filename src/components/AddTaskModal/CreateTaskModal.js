@@ -6,8 +6,8 @@ import {
     Text,
     TextInput,
     Switch,
-    TouchableOpacity,
     Button,
+    TouchableOpacity,
 } from 'react-native'
 import styles from './styles'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -18,8 +18,8 @@ const TaskModal = ({
     onSubmit,
     taskName = '',
     setTaskName,
-    taskDescription = '',
     setTaskDescription,
+    taskDescription = '',
     isFinished = false,
     setIsFinished,
 }) => {

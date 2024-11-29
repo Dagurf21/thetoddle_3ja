@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import styles from './styles'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import OptionsMenu from '../OptionsMenu/OptionsMenu'
 import EditListModal from '../EditListModal/EditListModal'
 import { useDataContext } from '../../services/DataContext'
-import styles from './styles'
 
 const List = ({ list }) => {
     const navigation = useNavigation()

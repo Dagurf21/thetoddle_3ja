@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './styles'
 import {
     ScrollView,
     Text,
@@ -12,7 +13,6 @@ import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal
 import EditBoardModal from '../../components/EditBoardModal/EditBoardModal'
 import OptionsMenu from '../../components/OptionsMenu/OptionsMenu'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import styles from './styles'
 
 const HomeScreen = ({ navigation }) => {
     const { boards, createBoard, updateBoard, deleteBoard } = useDataContext()
@@ -64,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     const handleSaveBoard = () => {
-        setMenuVisible(false);
+        setMenuVisible(false)
         if (!selectedBoard) {
             alert('No board selected to save.')
             return

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal, View, Text, FlatList, TouchableOpacity } from 'react-native'
 import styles from './styles'
+import { Modal, View, Text, FlatList, TouchableOpacity } from 'react-native'
 
 const MoveTaskModal = ({ visible, onClose, lists, onMove }) => {
     return (

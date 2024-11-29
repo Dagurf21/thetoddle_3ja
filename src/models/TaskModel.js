@@ -1,4 +1,3 @@
-// src/models/Task.js
 class Task {
     constructor(id, name, description, isFinished, listId, dueDate) {
         this.id = id

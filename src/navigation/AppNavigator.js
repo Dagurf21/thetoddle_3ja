@@ -5,7 +5,7 @@ import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen'
 import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen'
 import LoadingScreen from '../views/LoadingScreen/LoadingScreen'
 import TaskView from '../views/TaskView/TaskView'
-import CalendarView from '../views/CalendarView/CalendarView' // Displays tasks for a specific list
+import CalendarView from '../views/CalendarView/CalendarView'
 import AddTaskScreen from '../views/AddTaskScreen/AddTaskScreen'
 import { TouchableOpacity, Image, StyleSheet } from 'react-native'
 
@@ -31,8 +31,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Home')}
                             style={{ marginRight: 10 }}
-                        >
-                        </TouchableOpacity>
+                        ></TouchableOpacity>
                     ),
                 })}
             />

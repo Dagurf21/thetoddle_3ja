@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, TextInput, Button, Modal } from 'react-native'
 import styles from './styles'
+import { View, Text, TextInput, Button, Modal } from 'react-native'
 
 const CreateBoardModal = ({
     visible,

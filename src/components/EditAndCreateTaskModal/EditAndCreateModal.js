@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styles from './styles'
 import {
     Modal,
     View,
@@ -11,7 +12,6 @@ import {
 import DatePicker from 'react-datepicker' // Web date picker
 import DateTimePicker from '@react-native-community/datetimepicker' // Mobile date picker
 import 'react-datepicker/dist/react-datepicker.css'
-import styles from './styles'
 
 // TODO: EDIT TASK DOEST NOT OPEN ON IOS
 

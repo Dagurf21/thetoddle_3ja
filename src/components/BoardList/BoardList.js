@@ -1,5 +1,3 @@
-// Display a list of boards
-
 import React from 'react'
 import { View, Text, FlatList } from 'react-native'
 import { useDataContext } from '../../services/DataContext'
