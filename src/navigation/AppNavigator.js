@@ -32,10 +32,6 @@ const AppNavigator = () => {
                             onPress={() => navigation.navigate('Home')}
                             style={{ marginRight: 10 }}
                         >
-                            <Image
-                                source={require('../../assets/logo.png')}
-                                style={styles.logo}
-                            />
                         </TouchableOpacity>
                     ),
                 })}
