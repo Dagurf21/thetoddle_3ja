@@ -54,6 +54,7 @@ const HomeScreen = ({ navigation }) => {
     };
 
     const handleSaveBoard = () => {
+        setMenuVisible(false);
         if (!selectedBoard) {
             alert("No board selected to save.");
             return;

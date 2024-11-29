@@ -7,7 +7,6 @@ import OptionsMenu from '../../components/OptionsMenuTask/OptionsMenuTask';
 import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import 'react-datepicker/dist/react-datepicker.css';
-
 import styles from './styles';
 
 const TaskView = ({ route }) => {
@@ -67,6 +66,7 @@ const TaskView = ({ route }) => {
     const handleEditTask = () => {
         if (!taskName.trim() || !taskDescription.trim() || !dueDate.trim()) {
             alert('Please fill in all fields.');
+            setMenuVisible(false)
             return;
         }
 
@@ -84,6 +84,7 @@ const TaskView = ({ route }) => {
 
         updateTaskInList(listId, updatedTasks);
         setIsEditModalVisible(false); // Close edit modal
+        setMenuVisible(false);
     };
 
     const handleDeleteTask = () => {
@@ -184,6 +185,9 @@ const TaskView = ({ route }) => {
                 onClose={() => setMenuVisible(false)}
                 onEdit={() => setIsEditModalVisible(true)}
                 onDelete={handleDeleteTask}
+                onMove={() => {
+                    setIsMoveModalVisible(true);
+                }}
             />
 
             {/* Move Task Modal */}
