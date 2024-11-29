@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import OptionsMenu from '../OptionsMenu/OptionsMenu';
 import EditListModal from '../EditListModal/EditListModal';
 import { useDataContext } from '../../services/DataContext';
-import styles from './styles'
+import styles from './styles';
 
 const List = ({ list }) => {
     const navigation = useNavigation();
@@ -14,11 +14,10 @@ const List = ({ list }) => {
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-    // States for editList inside options
-    const [selectedList, setSelectedList] = useState(null);
+    // States for editing list
+    const [isEditListModalVisible, setIsEditListModalVisible] = useState(false);
     const [editListName, setEditListName] = useState('');
     const [editListColor, setEditListColor] = useState('');
-    const [isEditListModalVisible, setIsEditListModalVisible] = useState(false);
 
     const handleNavigateToTasks = () => {
         navigation.navigate('TaskView', { listId: list.id });
@@ -27,15 +26,7 @@ const List = ({ list }) => {
     const handlePressOptions = (event) => {
         const { pageX, pageY } = event.nativeEvent;
         setMenuPosition({ x: pageX, y: pageY });
-        setSelectedList(list);
         setMenuVisible(true);
-    };
-
-    const handleEditList = () => {
-        setEditListName(selectedList.name);
-        setEditListColor(selectedList.color);
-        setIsEditListModalVisible(true);
-        setMenuVisible(false);
     };
 
     const handleSaveEditedList = () => {
@@ -45,17 +36,17 @@ const List = ({ list }) => {
         }
 
         const updatedList = {
-            id: selectedList.id,
+            id: list.id,
             name: editListName.trim(),
             color: editListColor.trim(),
         };
 
-        updateList(selectedList.id, updatedList);
+        updateList(list.id, updatedList);
         setIsEditListModalVisible(false);
     };
 
     const handleDeleteList = () => {
-        deleteList(selectedList.id);
+        deleteList(list.id);
         setMenuVisible(false);
     };
 
@@ -82,7 +73,7 @@ const List = ({ list }) => {
                 visible={menuVisible}
                 position={menuPosition}
                 onClose={() => setMenuVisible(false)}
-                onEdit={handleEditList}
+                onEdit={() => setIsEditListModalVisible(true)}
                 onDelete={handleDeleteList}
             />
 

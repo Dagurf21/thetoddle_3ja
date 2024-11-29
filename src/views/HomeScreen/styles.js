@@ -151,7 +151,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 1000,
+        elevation: 10,
     },
+
     modalContent: {
         width: '50%',
         backgroundColor: 'white',

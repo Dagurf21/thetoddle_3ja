@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Modal, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import styles from './styles';
 
 const TaskModal = ({
                        visible,
@@ -15,12 +16,12 @@ const TaskModal = ({
                        dueDate,
                        setDueDate,
                    }) => {
-    const [showDatePicker, setShowDatePicker] = useState(false); // For displaying date picker
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleDateChange = (event, selectedDate) => {
-        setShowDatePicker(false); // Close the picker
+        setShowDatePicker(false);
         if (selectedDate) {
-            setDueDate(selectedDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+            setDueDate(selectedDate.toISOString().split('T')[0]);
         }
     };
 
@@ -41,6 +42,7 @@ const TaskModal = ({
                         placeholder="Task Name"
                         value={taskName}
                         onChangeText={setTaskName}
+                        placeholderTextColor="#999"
                     />
 
                     {/* Task Description Input */}
@@ -49,6 +51,9 @@ const TaskModal = ({
                         placeholder="Task Description"
                         value={taskDescription}
                         onChangeText={setTaskDescription}
+                        placeholderTextColor="#999"
+                        multiline
+                        numberOfLines={3}
                     />
 
                     {/* Due Date Picker */}
@@ -73,7 +78,10 @@ const TaskModal = ({
 
                     {/* Is Finished Toggle */}
                     <TouchableOpacity
-                        style={styles.toggleButton}
+                        style={[
+                            styles.toggleButton,
+                            isFinished ? styles.complete : styles.incomplete,
+                        ]}
                         onPress={() => setIsFinished(!isFinished)}
                     >
                         <Text style={styles.toggleText}>
@@ -83,8 +91,18 @@ const TaskModal = ({
 
                     {/* Modal Buttons */}
                     <View style={styles.modalButtons}>
-                        <Button title="Cancel" onPress={onClose} />
-                        <Button title="Save" onPress={onSubmit} />
+                        <TouchableOpacity
+                            style={[styles.button, styles.cancelButton]}
+                            onPress={onClose}
+                        >
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, styles.saveButton]}
+                            onPress={onSubmit}
+                        >
+                            <Text style={styles.buttonText}>Save</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -92,4 +110,4 @@ const TaskModal = ({
     );
 };
 
-export
+export default TaskModal;

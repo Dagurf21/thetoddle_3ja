@@ -16,13 +16,14 @@ const TaskView = ({ route }) => {
     const list = getListById(listId);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Separate state for edit modal
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [selectedTask, setSelectedTask] = useState(null);
-    const [newTaskName, setNewTaskName] = useState('');
-    const [newTaskDescription, setNewTaskDescription] = useState('');
+    const [taskName, setTaskName] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
     const [isFinished, setIsFinished] = useState(false);
-    const [dueDate, setDueDate] = useState(''); // For task due date
+    const [dueDate, setDueDate] = useState('');
     const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
 
     if (!list) {
@@ -41,47 +42,30 @@ const TaskView = ({ route }) => {
     };
 
     const handleCreateTask = () => {
-        if (!newTaskName.trim()) {
-            alert('Task name is required.');
-            return;
-        }
-
-        if (!dueDate.trim()) {
-            alert('Please provide a due date.');
+        if (!taskName.trim() || !dueDate.trim()) {
+            alert('Please fill in all required fields.');
             return;
         }
 
         const newTask = {
             id: Date.now().toString(),
-            name: newTaskName.trim(),
-            description: newTaskDescription.trim(),
+            name: taskName.trim(),
+            description: taskDescription.trim(),
             isFinished,
             dueDate: dueDate.trim(),
         };
 
         updateTaskInList(listId, [...list.tasks, newTask]);
 
-        // Reset modal inputs and close the modal
-        setNewTaskName('');
-        setNewTaskDescription('');
+        setTaskName('');
+        setTaskDescription('');
         setIsFinished(false);
         setDueDate('');
         setIsModalVisible(false);
     };
 
-    const handleEditModal = () => {
-        console.log("Opening Edit Modal");
-        console.log("Selected Task:", selectedTask);
-        setNewTaskName(selectedTask.name);
-        setNewTaskDescription(selectedTask.description);
-        setIsFinished(selectedTask.isFinished);
-        setDueDate(selectedTask.dueDate || ''); // Populate dueDate if available
-        setMenuVisible(false);
-        setIsModalVisible(true);
-    };
-
     const handleEditTask = () => {
-        if (!newTaskName.trim() || !newTaskDescription.trim() || !dueDate.trim()) {
+        if (!taskName.trim() || !taskDescription.trim() || !dueDate.trim()) {
             alert('Please fill in all fields.');
             return;
         }
@@ -90,8 +74,8 @@ const TaskView = ({ route }) => {
             task.id === selectedTask.id
                 ? {
                     ...task,
-                    name: newTaskName.trim(),
-                    description: newTaskDescription.trim(),
+                    name: taskName.trim(),
+                    description: taskDescription.trim(),
                     isFinished,
                     dueDate: dueDate.trim(),
                 }
@@ -99,7 +83,7 @@ const TaskView = ({ route }) => {
         );
 
         updateTaskInList(listId, updatedTasks);
-        setIsModalVisible(false); // Close the modal
+        setIsEditModalVisible(false); // Close edit modal
     };
 
     const handleDeleteTask = () => {
@@ -108,37 +92,11 @@ const TaskView = ({ route }) => {
         setMenuVisible(false);
     };
 
-    const handleMoveToTargetList = (targetListId) => {
-        const targetList = getListById(targetListId);
-        const currentList = getListById(listId);
-
-        if (!targetList) {
-            alert("Target list not found!");
-            return;
-        }
-
-        // Remove task from current list
-        const updatedCurrentTasks = currentList.tasks.filter(
-            (task) => task.id !== selectedTask.id
-        );
-
-        // Add task to target list
-        const movedTask = { ...selectedTask, listId: targetListId };
-        const updatedTargetTasks = [...targetList.tasks, movedTask];
-
-        // Update both lists
-        updateTaskInList(listId, updatedCurrentTasks);
-        updateTaskInList(targetListId, updatedTargetTasks);
-
-        setMenuVisible(false);
-    };
-
     const handlePressOptions = (event, task) => {
         const { pageX, pageY } = event.nativeEvent;
-        console.log("Options Pressed:", task);
         setMenuPosition({ x: pageX, y: pageY });
         setSelectedTask(task);
-        setMenuVisible(true); // Show the menu
+        setMenuVisible(true);
     };
 
     const ProgressBar = ({ tasks }) => {
@@ -189,26 +147,42 @@ const TaskView = ({ route }) => {
                 <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
 
-            {/* Unified Task Modal */}
+            {/* Task Modal for Creating */}
             <TaskModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
-                onSubmit={selectedTask ? handleEditTask : handleCreateTask}
-                taskName={newTaskName}
-                setTaskName={setNewTaskName}
-                taskDescription={newTaskDescription}
-                setTaskDescription={setNewTaskDescription}
+                onSubmit={handleCreateTask}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDescription={taskDescription}
+                setTaskDescription={setTaskDescription}
                 isFinished={isFinished}
                 setIsFinished={setIsFinished}
                 dueDate={dueDate}
                 setDueDate={setDueDate}
             />
+
+            {/* Task Modal for Editing */}
+            <TaskModal
+                visible={isEditModalVisible}
+                onClose={() => setIsEditModalVisible(false)}
+                onSubmit={handleEditTask}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDescription={taskDescription}
+                setTaskDescription={setTaskDescription}
+                isFinished={isFinished}
+                setIsFinished={setIsFinished}
+                dueDate={dueDate}
+                setDueDate={setDueDate}
+            />
+
             {/* Options Menu */}
             <OptionsMenu
                 visible={menuVisible}
                 position={menuPosition}
                 onClose={() => setMenuVisible(false)}
-                onEdit={handleEditModal}
+                onEdit={() => setIsEditModalVisible(true)}
                 onDelete={handleDeleteTask}
             />
 
@@ -216,8 +190,15 @@ const TaskView = ({ route }) => {
             <MoveTaskModal
                 visible={isMoveModalVisible}
                 onClose={() => setIsMoveModalVisible(false)}
-                lists={getAllLists().filter((l) => l.id !== listId)} // Exclude current list
-                onMove={handleMoveToTargetList}
+                lists={getAllLists().filter((l) => l.id !== listId)}
+                onMove={(targetListId) => {
+                    const targetList = getListById(targetListId);
+                    if (targetList) {
+                        updateTaskInList(listId, list.tasks.filter((task) => task.id !== selectedTask.id));
+                        updateTaskInList(targetListId, [...targetList.tasks, selectedTask]);
+                    }
+                    setIsMoveModalVisible(false);
+                }}
             />
         </View>
     );

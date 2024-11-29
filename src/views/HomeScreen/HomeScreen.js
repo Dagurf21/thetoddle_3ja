@@ -53,15 +53,12 @@ const HomeScreen = ({ navigation }) => {
         setIsModalVisible(false);
     };
 
-    const handleEditBoard = () => {
-        setEditBoardName(selectedBoard.name);
-        setEditBoardThumbnail(selectedBoard.thumbnailPhoto);
-        setEditBoardDescription(selectedBoard.description);
-        setIsEditModalVisible(true);
-        setMenuVisible(false);
-    };
-
     const handleSaveBoard = () => {
+        if (!selectedBoard) {
+            alert("No board selected to save.");
+            return;
+        }
+
         if (!editBoardName.trim() || !editBoardThumbnail.trim() || !editBoardDescription.trim()) {
             alert('Please fill in all fields.');
             return;
@@ -74,8 +71,11 @@ const HomeScreen = ({ navigation }) => {
         };
 
         updateBoard(selectedBoard.id, updatedBoard);
+
         setIsEditModalVisible(false);
+        setMenuVisible(false);
     };
+
 
     const handleDeleteBoard = () => {
         deleteBoard(selectedBoard.id);
@@ -152,7 +152,7 @@ const HomeScreen = ({ navigation }) => {
                 visible={menuVisible}
                 position={menuPosition}
                 onClose={() => setMenuVisible(false)}
-                onEdit={handleEditBoard}
+                onEdit= {() =>setIsEditModalVisible(true)}
                 onDelete={handleDeleteBoard}
             />
         </ScrollView>
