@@ -1,46 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { useDataContext } from '../../services/DataContext';
-import BoardHeader from '../../components/BoardHeader/BoardHeader';
-import CreateListModal from '../../components/CreateListModal/CreateListModal';
-import ListsSection from '../../components/ListSection/ListsSection';
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import styles from './styles';
+import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native'
+import { useDataContext } from '../../services/DataContext'
+import BoardHeader from '../../components/BoardHeader/BoardHeader'
+import CreateListModal from '../../components/CreateListModal/CreateListModal'
+import ListsSection from '../../components/ListSection/ListsSection'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import styles from './styles'
 
 const BoardDetailScreen = ({ route }) => {
-    const { boardId } = route.params;
-    const { getBoardById, createList } = useDataContext();
-    const board = getBoardById(boardId);
+    const { boardId } = route.params
+    const { getBoardById, createList } = useDataContext()
+    const board = getBoardById(boardId)
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [newListName, setNewListName] = useState('');
-    const [newListColor, setNewListColor] = useState('#ffffff');
+    const [modalVisible, setModalVisible] = useState(false)
+    const [newListName, setNewListName] = useState('')
+    const [newListColor, setNewListColor] = useState('#ffffff')
 
     if (!board) {
         return (
             <View style={styles.scrollContainer}>
                 <Text style={styles.text}>Board not found</Text>
             </View>
-        );
+        )
     }
 
     const handleAddList = () => {
         if (!newListName.trim()) {
-            Alert.alert('Error', 'List name cannot be empty.');
-            return;
+            Alert.alert('Error', 'List name cannot be empty.')
+            return
         }
 
         createList(board.id, {
             id: Date.now(), // Generate unique ID
             name: newListName.trim(),
             color: newListColor.trim(),
-        });
+        })
 
-        setNewListName('');
-        setNewListColor('#ffffff');
-        setModalVisible(false);
-        Alert.alert('Success', 'List added successfully!');
-    };
+        setNewListName('')
+        setNewListColor('#ffffff')
+        setModalVisible(false)
+        Alert.alert('Success', 'List added successfully!')
+    }
 
     return (
         <View style={styles.scrollContainer}>
@@ -72,7 +72,7 @@ const BoardDetailScreen = ({ route }) => {
                 setListColor={setNewListColor}
             />
         </View>
-    );
-};
+    )
+}
 
-export default BoardDetailScreen;
+export default BoardDetailScreen

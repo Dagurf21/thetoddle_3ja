@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flatListContainer: {
         paddingBottom: 16,
     },
-// Board
+    // Board
     boardButtonText: {
         fontSize: 20,
         color: '#333',
@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     boardDetails: {
         flex: 1,
     },
-// More Options
+    // More Options
     optionsContainer: {
         flex: 1,
     },
     optionsOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     optionsMenu: {
         position: 'absolute',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         color: '#333',
     },
-// Line
+    // Line
     line: {
         height: 2,
         backgroundColor: '#d3d3d3',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         width: '50%',
     },
 
-// Create board
+    // Create board
     createBoardButton: {
         alignSelf: 'center',
         elevation: 2,
@@ -164,26 +164,25 @@ const styles = StyleSheet.create({
     },
     progressContainer: {
         marginVertical: 10,
-            paddingHorizontal: 16,
-            alignItems: 'center', // Center align text and bar
+        paddingHorizontal: 16,
+        alignItems: 'center', // Center align text and bar
     },
     progressText: {
         fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 4,
+        fontWeight: 'bold',
+        marginBottom: 4,
     },
     progressBar: {
         height: 12, // Adjust height for better visibility
-            width: '100%',
-            backgroundColor: '#e0e0e0', // Light gray background
-            borderRadius: 6, // Rounded corners
-            overflow: 'hidden', // Ensure progress is clipped within bar
+        width: '100%',
+        backgroundColor: '#e0e0e0', // Light gray background
+        borderRadius: 6, // Rounded corners
+        overflow: 'hidden', // Ensure progress is clipped within bar
     },
     progress: {
         height: '100%',
-            backgroundColor: '#4caf50', // Green for progress
+        backgroundColor: '#4caf50', // Green for progress
     },
-});
+})
 
-
-export default styles;
+export default styles

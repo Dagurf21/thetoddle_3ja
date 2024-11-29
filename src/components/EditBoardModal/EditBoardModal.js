@@ -1,26 +1,20 @@
-import React from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Modal
-} from 'react-native';
-import styles from './styles';
+import React from 'react'
+import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native'
+import styles from './styles'
 
 const EditBoardModal = ({
-                            visible,
-                            onClose,
-                            onSubmit,
-                            boardName = "",
-                            setBoardName,
-                            boardThumbnail = "",
-                            setBoardThumbnail,
-                            boardDescription = "",
-                            setBoardDescription,
-                        }) => {
-
-    const isSaveDisabled = !boardName.trim() || !boardThumbnail.trim() || !boardDescription.trim();
+    visible,
+    onClose,
+    onSubmit,
+    boardName = '',
+    setBoardName,
+    boardThumbnail = '',
+    setBoardThumbnail,
+    boardDescription = '',
+    setBoardDescription,
+}) => {
+    const isSaveDisabled =
+        !boardName.trim() || !boardThumbnail.trim() || !boardDescription.trim()
 
     return (
         <Modal
@@ -42,7 +36,7 @@ const EditBoardModal = ({
                         style={styles.input}
                         value={boardName}
                         onChangeText={(text) => {
-                            setBoardName(text);
+                            setBoardName(text)
                         }}
                     />
 
@@ -55,7 +49,7 @@ const EditBoardModal = ({
                         style={styles.input}
                         value={boardThumbnail}
                         onChangeText={(text) => {
-                            setBoardThumbnail(text);
+                            setBoardThumbnail(text)
                         }}
                     />
 
@@ -70,22 +64,25 @@ const EditBoardModal = ({
                         numberOfLines={3} // Specifies visible rows
                         value={boardDescription}
                         onChangeText={(text) => {
-                            setBoardDescription(text);
+                            setBoardDescription(text)
                         }}
                     />
 
                     {/* Buttons */}
                     <View style={styles.editButtons}>
-                        <TouchableOpacity style={styles.button} onPress={onClose}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={onClose}
+                        >
                             <Text style={styles.buttonText}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[
                                 styles.button,
-                                isSaveDisabled && { backgroundColor: "#ccc" },
+                                isSaveDisabled && { backgroundColor: '#ccc' },
                             ]}
                             onPress={() => {
-                                onSubmit();
+                                onSubmit()
                             }}
                             disabled={isSaveDisabled}
                         >
@@ -95,7 +92,7 @@ const EditBoardModal = ({
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default EditBoardModal;
+export default EditBoardModal

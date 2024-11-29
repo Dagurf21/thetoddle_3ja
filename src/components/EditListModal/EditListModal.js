@@ -1,16 +1,16 @@
-import React from 'react';
-import { View, Text, TextInput, Button, Modal } from 'react-native';
+import React from 'react'
+import { View, Text, TextInput, Button, Modal } from 'react-native'
 import styles from './styles'
 
 const EditListModal = ({
-                            visible,
-                            onClose,
-                            onSubmit,
-                            listName,
-                            setListName,
-                            listColor,
-                            setListColor,
-                        }) => {
+    visible,
+    onClose,
+    onSubmit,
+    listName,
+    setListName,
+    listColor,
+    setListColor,
+}) => {
     return (
         <Modal
             visible={visible}
@@ -36,13 +36,21 @@ const EditListModal = ({
                         onChangeText={setListColor}
                     />
                     <View style={styles.editButtons}>
-                        <Button title="Cancel" onPress={onClose} color="#818181" />
-                        <Button title="Save" onPress={onSubmit} color="#818181" />
+                        <Button
+                            title="Cancel"
+                            onPress={onClose}
+                            color="#818181"
+                        />
+                        <Button
+                            title="Save"
+                            onPress={onSubmit}
+                            color="#818181"
+                        />
                     </View>
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default EditListModal;
+export default EditListModal

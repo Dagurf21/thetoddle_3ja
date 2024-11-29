@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Modal, TouchableOpacity } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import styles from './styles';
+import React, { useState } from 'react'
+import { View, Text, TextInput, Modal, TouchableOpacity } from 'react-native'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import styles from './styles'
 
 const TaskModal = ({
-                       visible,
-                       onClose,
-                       onSubmit,
-                       taskName,
-                       setTaskName,
-                       taskDescription,
-                       setTaskDescription,
-                       isFinished,
-                       setIsFinished,
-                       dueDate,
-                       setDueDate,
-                   }) => {
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    visible,
+    onClose,
+    onSubmit,
+    taskName,
+    setTaskName,
+    taskDescription,
+    setTaskDescription,
+    isFinished,
+    setIsFinished,
+    dueDate,
+    setDueDate,
+}) => {
+    const [showDatePicker, setShowDatePicker] = useState(false)
 
     const handleDateChange = (event, selectedDate) => {
-        setShowDatePicker(false);
+        setShowDatePicker(false)
         if (selectedDate) {
-            setDueDate(selectedDate.toISOString().split('T')[0]);
+            setDueDate(selectedDate.toISOString().split('T')[0])
         }
-    };
+    }
 
     return (
         <Modal
@@ -85,7 +85,9 @@ const TaskModal = ({
                         onPress={() => setIsFinished(!isFinished)}
                     >
                         <Text style={styles.toggleText}>
-                            {isFinished ? 'Mark as Incomplete' : 'Mark as Complete'}
+                            {isFinished
+                                ? 'Mark as Incomplete'
+                                : 'Mark as Complete'}
                         </Text>
                     </TouchableOpacity>
 
@@ -107,7 +109,7 @@ const TaskModal = ({
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default TaskModal;
+export default TaskModal

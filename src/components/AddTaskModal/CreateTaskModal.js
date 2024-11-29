@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import {Modal, View, Text, TextInput, Switch, TouchableOpacity, Button,} from 'react-native';
+/*
+import React, { useState } from 'react'
+import {
+    Modal,
+    View,
+    Text,
+    TextInput,
+    Switch,
+    TouchableOpacity,
+    Button,
+} from 'react-native'
 import styles from './styles'
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 const TaskModal = ({
-                       visible,
-                       onClose,
-                       onSubmit,
-                       taskName = '',
-                       setTaskName,
-                       taskDescription = '',
-                       setTaskDescription,
-                       isFinished = false,
-                       setIsFinished,
-                   }) => {
+    visible,
+    onClose,
+    onSubmit,
+    taskName = '',
+    setTaskName,
+    taskDescription = '',
+    setTaskDescription,
+    isFinished = false,
+    setIsFinished,
+}) => {
     return (
         <Modal
             visible={visible}
@@ -46,8 +55,8 @@ const TaskModal = ({
                             onValueChange={setIsFinished}
                         />
                     </View>
-                    
-                    {/* Due Date Picker */}
+
+                    {/!* Due Date Picker *!/}
                     <TouchableOpacity
                         style={styles.datePickerButton}
                         onPress={() => setShowDatePicker(true)}
@@ -57,7 +66,7 @@ const TaskModal = ({
                         </Text>
                     </TouchableOpacity>
 
-                    {/* Show DateTimePicker */}
+                    {/!* Show DateTimePicker *!/}
                     {showDatePicker && (
                         <DateTimePicker
                             value={dueDate ? new Date(dueDate) : new Date()}
@@ -68,15 +77,14 @@ const TaskModal = ({
                     )}
 
                     <View style={styles.createButtons}>
-                        <Button title="Cancel" onPress={onClose}  />
-                        <Button title="Create" onPress={onSubmit}  />
+                        <Button title="Cancel" onPress={onClose} />
+                        <Button title="Create" onPress={onSubmit} />
                     </View>
-
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-
-export default TaskModal;
+export default TaskModal
+*/

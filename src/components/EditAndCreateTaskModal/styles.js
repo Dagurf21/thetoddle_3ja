@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-});
+})
 
-export default styles;
+export default styles

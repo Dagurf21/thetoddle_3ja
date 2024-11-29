@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, Button, Image } from 'react-native';
-import styles from './styles';
+import React from 'react'
+import { View, Text, Button, Image } from 'react-native'
+import styles from './styles'
 
 const LoadingScreen = ({ navigation }) => {
     return (
@@ -15,8 +15,7 @@ const LoadingScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('Home')}
             />
         </View>
-    );
-};
+    )
+}
 
-
-export default LoadingScreen;
+export default LoadingScreen

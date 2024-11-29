@@ -1,42 +1,52 @@
-import React, { useState } from 'react';
-import { ScrollView, Text, FlatList, TouchableOpacity, View } from 'react-native';
-import { useDataContext } from '../../services/DataContext';
-import BoardItem from '../../components/BoardItem/BoardItem';
-import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal';
-import EditBoardModal from '../../components/EditBoardModal/EditBoardModal';
-import OptionsMenu from '../../components/OptionsMenu/OptionsMenu';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from "./styles";
+import React, { useState } from 'react'
+import {
+    ScrollView,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    View,
+} from 'react-native'
+import { useDataContext } from '../../services/DataContext'
+import BoardItem from '../../components/BoardItem/BoardItem'
+import CreateBoardModal from '../../components/CreateBoardModal/CreateBoardModal'
+import EditBoardModal from '../../components/EditBoardModal/EditBoardModal'
+import OptionsMenu from '../../components/OptionsMenu/OptionsMenu'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import styles from './styles'
 
 const HomeScreen = ({ navigation }) => {
-    const { boards, createBoard, updateBoard, deleteBoard } = useDataContext();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [selectedBoard, setSelectedBoard] = useState(null);
+    const { boards, createBoard, updateBoard, deleteBoard } = useDataContext()
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [menuVisible, setMenuVisible] = useState(false)
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
+    const [selectedBoard, setSelectedBoard] = useState(null)
 
     // State for creating a new board
-    const [newBoardName, setNewBoardName] = useState('');
-    const [newBoardThumbnail, setNewBoardThumbnail] = useState('');
-    const [newBoardDescription, setNewBoardDescription] = useState('');
+    const [newBoardName, setNewBoardName] = useState('')
+    const [newBoardThumbnail, setNewBoardThumbnail] = useState('')
+    const [newBoardDescription, setNewBoardDescription] = useState('')
 
     // State for editing an existing board
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [editBoardName, setEditBoardName] = useState('');
-    const [editBoardThumbnail, setEditBoardThumbnail] = useState('');
-    const [editBoardDescription, setEditBoardDescription] = useState('');
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false)
+    const [editBoardName, setEditBoardName] = useState('')
+    const [editBoardThumbnail, setEditBoardThumbnail] = useState('')
+    const [editBoardDescription, setEditBoardDescription] = useState('')
 
     const handlePressOptions = (event, board) => {
-        const { pageX, pageY } = event.nativeEvent;
-        setMenuPosition({ x: pageX, y: pageY });
-        setSelectedBoard(board);
-        setMenuVisible(true);
-    };
+        const { pageX, pageY } = event.nativeEvent
+        setMenuPosition({ x: pageX, y: pageY })
+        setSelectedBoard(board)
+        setMenuVisible(true)
+    }
 
     const handleCreateBoard = () => {
-        if (!newBoardName.trim() || !newBoardThumbnail.trim() || !newBoardDescription.trim()) {
-            alert('Please fill in all fields.');
-            return;
+        if (
+            !newBoardName.trim() ||
+            !newBoardThumbnail.trim() ||
+            !newBoardDescription.trim()
+        ) {
+            alert('Please fill in all fields.')
+            return
         }
 
         const newBoard = {
@@ -44,43 +54,46 @@ const HomeScreen = ({ navigation }) => {
             name: newBoardName.trim(),
             thumbnailPhoto: newBoardThumbnail.trim(),
             description: newBoardDescription.trim(),
-        };
+        }
 
-        createBoard(newBoard);
-        setNewBoardName('');
-        setNewBoardThumbnail('');
-        setNewBoardDescription('');
-        setIsModalVisible(false);
-    };
+        createBoard(newBoard)
+        setNewBoardName('')
+        setNewBoardThumbnail('')
+        setNewBoardDescription('')
+        setIsModalVisible(false)
+    }
 
     const handleSaveBoard = () => {
         if (!selectedBoard) {
-            alert("No board selected to save.");
-            return;
+            alert('No board selected to save.')
+            return
         }
 
-        if (!editBoardName.trim() || !editBoardThumbnail.trim() || !editBoardDescription.trim()) {
-            alert('Please fill in all fields.');
-            return;
+        if (
+            !editBoardName.trim() ||
+            !editBoardThumbnail.trim() ||
+            !editBoardDescription.trim()
+        ) {
+            alert('Please fill in all fields.')
+            return
         }
 
         const updatedBoard = {
             name: editBoardName.trim(),
             thumbnailPhoto: editBoardThumbnail.trim(),
             description: editBoardDescription.trim(),
-        };
+        }
 
-        updateBoard(selectedBoard.id, updatedBoard);
+        updateBoard(selectedBoard.id, updatedBoard)
 
-        setIsEditModalVisible(false);
-        setMenuVisible(false);
-    };
-
+        setIsEditModalVisible(false)
+        setMenuVisible(false)
+    }
 
     const handleDeleteBoard = () => {
-        deleteBoard(selectedBoard.id);
-        setMenuVisible(false);
-    };
+        deleteBoard(selectedBoard.id)
+        setMenuVisible(false)
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -92,11 +105,14 @@ const HomeScreen = ({ navigation }) => {
                     style={styles.calendarButton}
                     onPress={() => navigation.navigate('Calendar')}
                 >
-                    <MaterialIcons name="calendar-today" size={24} color="#000" />
+                    <MaterialIcons
+                        name="calendar-today"
+                        size={24}
+                        color="#000"
+                    />
                     <Text style={styles.calendarText}>Calendar</Text>
                 </TouchableOpacity>
             </View>
-
 
             <FlatList
                 data={boards}
@@ -104,8 +120,12 @@ const HomeScreen = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <BoardItem
                         board={item}
-                        onView={(id) => navigation.navigate('BoardDetail', { boardId: id })}
-                        onOptionsPress={(event) => handlePressOptions(event, item)}
+                        onView={(id) =>
+                            navigation.navigate('BoardDetail', { boardId: id })
+                        }
+                        onOptionsPress={(event) =>
+                            handlePressOptions(event, item)
+                        }
                     />
                 )}
                 contentContainerStyle={styles.flatListContainer}
@@ -119,7 +139,6 @@ const HomeScreen = ({ navigation }) => {
                 <MaterialIcons name="add" size={32} color="#fff" />
                 <Text style={styles.buttonText}>Create New Board</Text>
             </TouchableOpacity>
-
 
             {/* Modal for Creating a New Board */}
             <CreateBoardModal
@@ -152,11 +171,11 @@ const HomeScreen = ({ navigation }) => {
                 visible={menuVisible}
                 position={menuPosition}
                 onClose={() => setMenuVisible(false)}
-                onEdit= {() =>setIsEditModalVisible(true)}
+                onEdit={() => setIsEditModalVisible(true)}
                 onDelete={handleDeleteBoard}
             />
         </ScrollView>
-    );
-};
+    )
+}
 
-export default HomeScreen;
+export default HomeScreen

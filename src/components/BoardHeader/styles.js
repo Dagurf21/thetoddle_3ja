@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 8,
     },
-});
+})
 
-export default styles;
+export default styles

@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flatListContainer: {
         paddingBottom: 16,
     },
-// Board
+    // Board
     boardButtonText: {
         fontSize: 20,
         color: '#333',
@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     boardDetails: {
         flex: 1,
     },
-// More Options
+    // More Options
     optionsContainer: {
         flex: 1,
     },
     optionsOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     optionsMenu: {
         position: 'absolute',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         color: '#333',
     },
-// Line
+    // Line
     line: {
         height: 2,
         backgroundColor: '#d3d3d3',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         width: '50%',
     },
 
-// Create board
+    // Create board
     createBoardButton: {
         alignSelf: 'center',
         elevation: 2,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 8,
-    }, /* <-- Special styles for loading screen --> */
+    } /* <-- Special styles for loading screen --> */,
     loadingScreencontainer: {
         flex: 1,
         justifyContent: 'center',
@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     loadingScreenText: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
-    }
-});
+        marginBottom: 20,
+    },
+})
 
-export default styles;
+export default styles

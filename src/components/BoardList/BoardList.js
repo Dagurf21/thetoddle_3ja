@@ -1,12 +1,11 @@
 // Display a list of boards
 
-import React from 'react';
-import {View, Text, FlatList} from 'react-native';
-import {useDataContext} from "../../services/DataContext";
-
+import React from 'react'
+import { View, Text, FlatList } from 'react-native'
+import { useDataContext } from '../../services/DataContext'
 
 const BoardList = () => {
-    const { boards } = useDataContext();
+    const { boards } = useDataContext()
 
     return (
         <View>
@@ -20,7 +19,7 @@ const BoardList = () => {
                 )}
             />
         </View>
-    );
-};
+    )
+}
 
-export default BoardList;
+export default BoardList

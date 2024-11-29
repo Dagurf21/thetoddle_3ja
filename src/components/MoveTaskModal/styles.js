@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     modalOverlay: {
@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     },
-});
+})
 
-export default styles;
+export default styles

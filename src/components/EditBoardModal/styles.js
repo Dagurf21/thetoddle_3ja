@@ -1,4 +1,4 @@
-import { StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 // Get the window dimensions for responsive design
 const styles = StyleSheet.create({
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-});
+})
 
-export default styles;
+export default styles

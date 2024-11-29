@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 8,
     },
-});
+})
 
-export default styles;
+export default styles

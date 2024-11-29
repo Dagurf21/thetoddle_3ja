@@ -1,38 +1,48 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Switch, TouchableOpacity, Button, Platform } from 'react-native';
-import DatePicker from 'react-datepicker'; // Web date picker
-import DateTimePicker from '@react-native-community/datetimepicker'; // Mobile date picker
-import 'react-datepicker/dist/react-datepicker.css';
-import styles from './styles';
+import React, { useState } from 'react'
+import {
+    Modal,
+    View,
+    Text,
+    TextInput,
+    Switch,
+    TouchableOpacity,
+    Platform,
+} from 'react-native'
+import DatePicker from 'react-datepicker' // Web date picker
+import DateTimePicker from '@react-native-community/datetimepicker' // Mobile date picker
+import 'react-datepicker/dist/react-datepicker.css'
+import styles from './styles'
 
 // TODO: EDIT TASK DOEST NOT OPEN ON IOS
 
 const EditAndCreateTaskModal = ({
-                                    visible,
-                                    onClose,
-                                    onSubmit,
-                                    taskName = '',
-                                    setTaskName,
-                                    taskDescription = '',
-                                    setTaskDescription,
-                                    isFinished = false,
-                                    setIsFinished,
-                                    dueDate = '',
-                                    setDueDate,
-                                }) => {
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    visible,
+    onClose,
+    onSubmit,
+    taskName = '',
+    setTaskName,
+    taskDescription = '',
+    setTaskDescription,
+    isFinished = false,
+    setIsFinished,
+    dueDate = '',
+    setDueDate,
+}) => {
+    const [showDatePicker, setShowDatePicker] = useState(false)
 
     const handleDateChange = (event, selectedDate) => {
         if (Platform.OS === 'web') {
-            setDueDate(selectedDate ? selectedDate.toISOString().split('T')[0] : '');
+            setDueDate(
+                selectedDate ? selectedDate.toISOString().split('T')[0] : '',
+            )
         } else {
-            const currentDate = selectedDate || new Date(dueDate);
-            setShowDatePicker(false);
+            const currentDate = selectedDate || new Date(dueDate)
+            setShowDatePicker(false)
             if (selectedDate) {
-                setDueDate(currentDate.toISOString().split('T')[0]);
+                setDueDate(currentDate.toISOString().split('T')[0])
             }
         }
-    };
+    }
 
     return (
         <Modal
@@ -76,10 +86,14 @@ const EditAndCreateTaskModal = ({
                     {/* Date Picker */}
                     {Platform.OS === 'web' ? (
                         <View style={styles.datePickerContainer}>
-                            <Text style={styles.datePickerLabel}>Due Date:</Text>
+                            <Text style={styles.datePickerLabel}>
+                                Due Date:
+                            </Text>
                             <DatePicker
                                 selected={dueDate ? new Date(dueDate) : null}
-                                onChange={(date) => setDueDate(date.toISOString().split('T')[0])}
+                                onChange={(date) =>
+                                    setDueDate(date.toISOString().split('T')[0])
+                                }
                                 dateFormat="yyyy-MM-dd"
                                 className="react-datepicker"
                                 placeholderText="Select a date"
@@ -91,7 +105,9 @@ const EditAndCreateTaskModal = ({
                             onPress={() => setShowDatePicker(true)}
                         >
                             <Text style={styles.datePickerText}>
-                                {dueDate ? `Due Date: ${dueDate}` : 'Set Due Date'}
+                                {dueDate
+                                    ? `Due Date: ${dueDate}`
+                                    : 'Set Due Date'}
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -123,7 +139,7 @@ const EditAndCreateTaskModal = ({
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default EditAndCreateTaskModal;
+export default EditAndCreateTaskModal

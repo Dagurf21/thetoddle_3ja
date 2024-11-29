@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     boardButtonText: {
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     boardDetails: {
         flex: 1,
     },
-});
+})
 
-export default styles;
+export default styles

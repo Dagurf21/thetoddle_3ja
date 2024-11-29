@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     optionsContainer: {
@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     },
     optionsOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     optionsMenu: {
         position: 'absolute',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '300',
         color: '#333',
-    }
+    },
 })
 
-export default styles;
+export default styles

@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-});
+})
 
-export default styles;
+export default styles

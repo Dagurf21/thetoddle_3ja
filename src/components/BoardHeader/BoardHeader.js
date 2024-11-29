@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+import React from 'react'
+import { View, Text, Image } from 'react-native'
 import styles from './styles'
-
 
 const BoardHeader = ({ board }) => {
     return (
@@ -9,13 +8,15 @@ const BoardHeader = ({ board }) => {
             <Text style={styles.title}>{board.name}</Text>
             <Text style={styles.description}>{board.description}</Text>
             {board.thumbnailPhoto ? (
-                <Image source={{ uri: board.thumbnailPhoto }} style={styles.image} />
+                <Image
+                    source={{ uri: board.thumbnailPhoto }}
+                    style={styles.image}
+                />
             ) : (
                 <Text style={styles.text}>No image available</Text>
             )}
         </View>
-    );
-};
+    )
+}
 
-
-export default BoardHeader;
+export default BoardHeader
