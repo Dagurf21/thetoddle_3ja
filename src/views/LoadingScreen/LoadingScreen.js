@@ -5,7 +5,7 @@ import styles from './styles';
 const LoadingScreen = ({ navigation }) => {
     return (
         <View style={styles.loadingScreenContainer}>
-            <Text style={styles.loadingScreenText}>Welcome to</Text>
+            <Text style={styles.loadingScreenText}>Welcome to "The TOODLER"</Text>
             <Image
                 source={require('../../../assets/logo.png')}
                 style={styles.logo}

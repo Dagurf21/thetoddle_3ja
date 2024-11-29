@@ -158,3 +158,12 @@ Provides utility functions.
 Examples:
 - `generateUniqueId()`: Generates unique IDs for new boards, lists, or tasks.
 - `filterDataByKey()`: Filters lists or tasks by boardId or listId.
+
+
+## Extra requirements list
+
+- Loading screen. Which has a logo, text to say "welcome to the Toodler" and a link to the home page
+- Calender. Where we have a calender where you can see where each task for each board and list are assigned to which day.
+- You can also in the task view set each task to a specific day
+- Progress bar. In the Task view we have a progress bar for how many tasked you have completed.
+- After each task in a list is completed the bar fills up until full which tells us that set list is completed.
