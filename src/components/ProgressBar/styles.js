@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     progressContainer: {
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#4caf50', // Green for progress
     },
-});
+})
 
-export default styles;
+export default styles

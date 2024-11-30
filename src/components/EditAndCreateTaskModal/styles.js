@@ -8,12 +8,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: '80%',
         backgroundColor: 'white',
         padding: 20,
         borderRadius: 10,
+        width: '80%',
     },
-    modalHeader: {
+    modalTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 16,
@@ -25,31 +25,50 @@ const styles = StyleSheet.create({
         padding: 8,
         marginBottom: 12,
     },
-    datePickerButton: {
-        padding: 12,
-        backgroundColor: '#f0f0f0',
-        borderRadius: 8,
-        marginBottom: 12,
-        alignItems: 'center',
+    textArea: {
+        height: 80,
     },
-    datePickerText: {
-        fontSize: 16,
-        color: '#333',
-    },
-    toggleButton: {
-        padding: 12,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 8,
-        marginBottom: 16,
-        alignItems: 'center',
-    },
-    toggleText: {
-        fontSize: 16,
-        color: '#333',
-    },
-    modalButtons: {
+    switchContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    datePickerContainer: {
+        marginBottom: 16,
+    },
+    datePickerLabel: {
+        marginBottom: 8,
+    },
+    datePickerButton: {
+        backgroundColor: '#ddd',
+        padding: 12,
+        borderRadius: 4,
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    datePickerText: {
+        color: '#333',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    button: {
+        padding: 12,
+        borderRadius: 4,
+        width: '35%',
+        alignItems: 'center',
+    },
+    cancelButton: {
+        backgroundColor: '#e74c3c',
+    },
+    createButton: {
+        backgroundColor: '#2ecc71',
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
     },
 })
 

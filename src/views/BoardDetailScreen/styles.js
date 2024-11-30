@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        flexGrow: 1,
+        flex: 1,
         padding: 16,
         backgroundColor: '#f8f9fa',
     },
@@ -10,6 +10,25 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         marginTop: 8,
+        color: '#333',
+    },
+    headerContainer: {
+        marginBottom: 16,
+        padding: 12,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+    descriptionText: {
+        marginTop: 8,
+        fontSize: 14,
+        color: '#666',
+        lineHeight: 20,
+        textAlign: 'center',
     },
     createBoardButton: {
         alignSelf: 'center',
@@ -32,7 +51,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 8,
     },
-
 })
 
-export default styles;
+export default styles

@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import styles from './styles';
+import React from 'react'
+import styles from './styles'
+import { View, Text, TouchableOpacity } from 'react-native'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const Task = ({ task, toggleFinished, onOptionsPress }) => {
     return (
@@ -10,7 +10,9 @@ const Task = ({ task, toggleFinished, onOptionsPress }) => {
             <TouchableOpacity
                 style={[
                     styles.checkbox,
-                    task.isFinished ? styles.checkboxChecked : styles.checkboxUnchecked,
+                    task.isFinished
+                        ? styles.checkboxChecked
+                        : styles.checkboxUnchecked,
                 ]}
                 onPress={() => toggleFinished(task.id)}
             />
@@ -36,7 +38,7 @@ const Task = ({ task, toggleFinished, onOptionsPress }) => {
                 <MaterialIcons name="more-vert" size={24} color="#666" />
             </TouchableOpacity>
         </View>
-    );
-};
+    )
+}
 
-export default Task;
+export default Task

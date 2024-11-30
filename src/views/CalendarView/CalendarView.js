@@ -1,34 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import styles from './styles';
-import { useDataContext } from '../../services/DataContext';
+import React, { useState } from 'react'
+import styles from './styles'
+import { View, Text, FlatList } from 'react-native'
+import { Calendar } from 'react-native-calendars'
+import { useDataContext } from '../../services/DataContext'
 
 const CalendarView = () => {
-    const [selectedDate, setSelectedDate] = useState('');
-    const { getTasksByDate, getMarkedDates } = useDataContext();
+    const [selectedDate, setSelectedDate] = useState('')
+    const { getTasksByDate, getMarkedDates } = useDataContext()
 
     const markedDates = {
         ...getMarkedDates(),
         [selectedDate]: { selected: true, selectedColor: 'blue' },
-    };
+    }
 
-    console.log("Selected Date:", selectedDate);
-
-    const tasksForSelectedDate = getTasksByDate(selectedDate);
-
-    console.log("Tasks for Selected Date:", tasksForSelectedDate);
+    const tasksForSelectedDate = getTasksByDate(selectedDate)
 
     const handleDayPress = (day) => {
-        setSelectedDate(day.dateString);
-    };
+        setSelectedDate(day.dateString)
+    }
 
     return (
         <View style={styles.container}>
-            <Calendar
-                onDayPress={handleDayPress}
-                markedDates={markedDates}
-            />
+            <Calendar onDayPress={handleDayPress} markedDates={markedDates} />
             <View style={styles.taskList}>
                 {selectedDate ? (
                     <>
@@ -41,7 +34,8 @@ const CalendarView = () => {
                                 keyExtractor={(item) => item.id.toString()}
                                 renderItem={({ item }) => (
                                     <Text style={styles.taskItem}>
-                                        - {item.name} {item.isFinished ? '(Completed)' : ''}
+                                        - {item.name}{' '}
+                                        {item.isFinished ? '(Completed)' : ''}
                                     </Text>
                                 )}
                             />
@@ -58,7 +52,7 @@ const CalendarView = () => {
                 )}
             </View>
         </View>
-    );
-};
+    )
+}
 
-export default CalendarView;
+export default CalendarView

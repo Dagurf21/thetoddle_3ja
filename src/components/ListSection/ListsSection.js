@@ -1,8 +1,7 @@
-import React from 'react';
-import { View } from 'react-native';
-import List from '../List/List';
-import styles from './styles';
-
+import React from 'react'
+import styles from './styles'
+import { View } from 'react-native'
+import List from '../List/List'
 
 const ListsSection = ({ lists }) => {
     return (
@@ -11,7 +10,7 @@ const ListsSection = ({ lists }) => {
                 <List key={list.id} list={list} />
             ))}
         </View>
-    );
-};
+    )
+}
 
-export default ListsSection;
+export default ListsSection

@@ -1,4 +1,4 @@
-import {StyleSheet} from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     listContainer: {
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#666',
     },
-});
+})
 
-export default styles;
+export default styles

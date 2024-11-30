@@ -1,16 +1,16 @@
-import React from 'react';
-import { View, Text, TextInput, Button, Modal } from 'react-native';
+import React from 'react'
 import styles from './styles'
+import { View, Text, TextInput, Button, Modal } from 'react-native'
 
 const CreateListModal = ({
-                             visible,
-                             onClose,
-                             onSubmit,
-                             listName,
-                             setListName,
-                             listColor,
-                             setListColor,
-                         }) => {
+    visible,
+    onClose,
+    onSubmit,
+    listName,
+    setListName,
+    listColor,
+    setListColor,
+}) => {
     return (
         <Modal
             animationType="none"
@@ -42,7 +42,7 @@ const CreateListModal = ({
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default CreateListModal;
+export default CreateListModal

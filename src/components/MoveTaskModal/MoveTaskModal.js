@@ -1,6 +1,6 @@
-import React from 'react';
-import { Modal, View, Text, FlatList, TouchableOpacity } from 'react-native';
-import styles from './styles';
+import React from 'react'
+import styles from './styles'
+import { Modal, View, Text, FlatList, TouchableOpacity } from 'react-native'
 
 const MoveTaskModal = ({ visible, onClose, lists, onMove }) => {
     return (
@@ -16,17 +16,22 @@ const MoveTaskModal = ({ visible, onClose, lists, onMove }) => {
                                 style={styles.listItem}
                                 onPress={() => onMove(item.id)}
                             >
-                                <Text style={styles.listItemText}>{item.name}</Text>
+                                <Text style={styles.listItemText}>
+                                    {item.name}
+                                </Text>
                             </TouchableOpacity>
                         )}
                     />
-                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                    <TouchableOpacity
+                        style={styles.closeButton}
+                        onPress={onClose}
+                    >
                         <Text style={styles.closeButtonText}>Cancel</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default MoveTaskModal;
+export default MoveTaskModal

@@ -1,16 +1,16 @@
-import React from 'react';
-import { View, Text, TextInput, Button, Modal } from 'react-native';
+import React from 'react'
 import styles from './styles'
+import { View, Text, TextInput, Button, Modal } from 'react-native'
 
 const CreateBoardModal = ({
-                           visible,
-                           onClose,
-                           onSubmit,
-                           boardName,
-                           setBoardName,
-                           boardThumbnail,
-                           setBoardThumbnail,
-                       }) => {
+    visible,
+    onClose,
+    onSubmit,
+    boardName,
+    setBoardName,
+    boardThumbnail,
+    setBoardThumbnail,
+}) => {
     return (
         <Modal
             visible={visible}
@@ -36,13 +36,13 @@ const CreateBoardModal = ({
                         onChangeText={setBoardThumbnail}
                     />
                     <View style={styles.createButtons}>
-                        <Button title="Cancel" onPress={onClose}  />
-                        <Button title="Create" onPress={onSubmit}  />
+                        <Button title="Cancel" onPress={onClose} />
+                        <Button title="Create" onPress={onSubmit} />
                     </View>
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default CreateBoardModal;
+export default CreateBoardModal

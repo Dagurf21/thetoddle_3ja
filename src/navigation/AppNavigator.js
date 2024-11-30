@@ -1,15 +1,15 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../views/HomeScreen/HomeScreen';
-import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen';
-import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen';
-import LoadingScreen from '../views/LoadingScreen/LoadingScreen';
-import TaskView from '../views/TaskView/TaskView';
-import CalendarView from "../views/CalendarView/CalendarView";              // Displays tasks for a specific list
-import AddTaskScreen from "../views/AddTaskScreen/AddTaskScreen";
-import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import HomeScreen from '../views/HomeScreen/HomeScreen'
+import BoardDetailScreen from '../views/BoardDetailScreen/BoardDetailScreen'
+import CreateBoardScreen from '../views/CreateBoardScreen/CreateBoardScreen'
+import LoadingScreen from '../views/LoadingScreen/LoadingScreen'
+import TaskView from '../views/TaskView/TaskView'
+import CalendarView from '../views/CalendarView/CalendarView'
+import AddTaskScreen from '../views/AddTaskScreen/AddTaskScreen'
+import { TouchableOpacity, Image, StyleSheet } from 'react-native'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const AppNavigator = () => {
     return (
@@ -31,12 +31,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Home')}
                             style={{ marginRight: 10 }}
-                        >
-                            <Image
-                                source={require('../../assets/logo.png')}
-                                style={styles.logo}
-                            />
-                        </TouchableOpacity>
+                        ></TouchableOpacity>
                     ),
                 })}
             />
@@ -98,18 +93,32 @@ const AppNavigator = () => {
             {/* Calendar Screen */}
             <Stack.Screen
                 name="Calendar"
-                component={CalendarView} />
-
+                component={CalendarView}
+                options={({ navigation }) => ({
+                    title: 'Calendar',
+                    headerRight: () => (
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Home')}
+                            style={{ marginRight: 10 }}
+                        >
+                            <Image
+                                source={require('../../assets/logo.png')}
+                                style={styles.logo}
+                            />
+                        </TouchableOpacity>
+                    ),
+                })}
+            />
         </Stack.Navigator>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     logo: {
         width: 140,
         height: 60,
         marginRight: 10,
-    }
+    },
 })
 
-export default AppNavigator;
+export default AppNavigator

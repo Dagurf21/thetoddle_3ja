@@ -1,143 +1,132 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { useDataContext } from '../../services/DataContext';
-import Task from '../../components/Task/Task';
-import TaskModal from '../../components/AddTaskModal/AddTaskModal';
-import OptionsMenu from '../../components/OptionsMenuTask/OptionsMenuTask';
-import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal'; // Import MoveTaskModal
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import styles from './styles';
+import React, { useState } from 'react'
+import styles from './styles'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { useDataContext } from '../../services/DataContext'
+import Task from '../../components/Task/Task'
+import TaskModal from '../../components/EditAndCreateTaskModal/EditAndCreateModal' // Unified modal
+import OptionsMenu from '../../components/OptionsMenuTask/OptionsMenuTask'
+import MoveTaskModal from '../../components/MoveTaskModal/MoveTaskModal'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const TaskView = ({ route }) => {
-    const { listId } = route.params;
-    const { getListById, updateTaskInList, getAllLists } = useDataContext();
-    const list = getListById(listId);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [menuVisible, setMenuVisible] = useState(false);
-    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
-    const [selectedTask, setSelectedTask] = useState(null);
-    const [newTaskName, setNewTaskName] = useState('');
-    const [newTaskDescription, setNewTaskDescription] = useState('');
-    const [isFinished, setIsFinished] = useState(false);
-    const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
+    const { listId } = route.params
+    const { getListById, updateTaskInList, getAllLists } = useDataContext()
+    const list = getListById(listId)
+
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false) // Separate state for edit modal
+    const [menuVisible, setMenuVisible] = useState(false)
+    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
+    const [selectedTask, setSelectedTask] = useState(null)
+    const [taskName, setTaskName] = useState('')
+    const [taskDescription, setTaskDescription] = useState('')
+    const [isFinished, setIsFinished] = useState(false)
+    const [dueDate, setDueDate] = useState('')
+    const [isMoveModalVisible, setIsMoveModalVisible] = useState(false)
 
     if (!list) {
         return (
             <View style={styles.optionsContent}>
                 <Text style={styles.header}>List not found</Text>
             </View>
-        );
+        )
     }
 
     const toggleFinished = (taskId) => {
         const updatedTasks = list.tasks.map((task) =>
-            task.id === taskId ? { ...task, isFinished: !task.isFinished } : task
-        );
-        updateTaskInList(listId, updatedTasks);
-    };
+            task.id === taskId
+                ? { ...task, isFinished: !task.isFinished }
+                : task,
+        )
+        updateTaskInList(listId, updatedTasks)
+    }
 
     const handleCreateTask = () => {
-        if (!newTaskName.trim()) {
-            alert('Task name is required.');
-            return;
+        if (!taskName.trim() || !dueDate.trim()) {
+            alert('Please fill in all required fields.')
+            return
         }
 
         const newTask = {
             id: Date.now().toString(),
-            name: newTaskName.trim(),
-            description: newTaskDescription.trim(),
+            name: taskName.trim(),
+            description: taskDescription.trim(),
             isFinished,
-        };
+            dueDate: dueDate.trim(),
+        }
 
-        updateTaskInList(listId, [...list.tasks, newTask]);
+        updateTaskInList(listId, [...list.tasks, newTask])
 
-        // Reset modal inputs and close the modal
-        setNewTaskName('');
-        setNewTaskDescription('');
-        setIsFinished(false);
-        setIsModalVisible(false);
-    };
-
-    const handleEditModal = () => {
-        setNewTaskName(selectedTask.name);
-        setNewTaskDescription(selectedTask.description);
-        setIsFinished(selectedTask.isFinished);
-
-        setMenuVisible(false);
-        setIsModalVisible(true);
-    };
+        setTaskName('')
+        setTaskDescription('')
+        setIsFinished(false)
+        setDueDate('')
+        setIsModalVisible(false)
+    }
 
     const handleEditTask = () => {
-        if (!newTaskName.trim() || !newTaskDescription.trim()) {
-            alert('Please fill in all fields.');
-            return;
+        if (!taskName.trim() || !taskDescription.trim() || !dueDate.trim()) {
+            alert('Please fill in all fields.')
+            setMenuVisible(false)
+            return
         }
 
         const updatedTasks = list.tasks.map((task) =>
             task.id === selectedTask.id
-                ? { ...task, name: newTaskName.trim(), description: newTaskDescription.trim(), isFinished }
-                : task
-        );
+                ? {
+                    ...task,
+                      name: taskName.trim(),
+                      description: taskDescription.trim(),
+                    isFinished,
+                    dueDate: dueDate.trim(),
+                  }
+                : task,
+        )
 
-        updateTaskInList(listId, updatedTasks);
-        setIsModalVisible(false);
-    };
+        updateTaskInList(listId, updatedTasks)
+        setIsEditModalVisible(false) // Close edit modal
+        setMenuVisible(false)
+    }
 
     const handleDeleteTask = () => {
-        const updatedTasks = list.tasks.filter((task) => task.id !== selectedTask.id);
-        updateTaskInList(listId, updatedTasks);
-        setMenuVisible(false);
-    };
-
-    const handleMoveToTargetList = (targetListId) => {
-        const targetList = getListById(targetListId);
-        const currentList = getListById(listId);
-
-        if (!targetList) {
-            alert("Target list not found!");
-            return;
-        }
-
-        // Remove task from current list
-        const updatedCurrentTasks = currentList.tasks.filter(
-            (task) => task.id !== selectedTask.id
-        );
-
-        // Add task to target list
-        const movedTask = { ...selectedTask, listId: targetListId };
-        const updatedTargetTasks = [...targetList.tasks, movedTask];
-
-        // Update both lists
-        updateTaskInList(listId, updatedCurrentTasks);
-        updateTaskInList(targetListId, updatedTargetTasks);
-
-        setMenuVisible(false);
-    };
+        const updatedTasks = list.tasks.filter(
+            (task) => task.id !== selectedTask.id,
+        )
+        updateTaskInList(listId, updatedTasks)
+        setMenuVisible(false)
+    }
 
     const handlePressOptions = (event, task) => {
-        const { pageX, pageY } = event.nativeEvent;
-        setMenuPosition({ x: pageX, y: pageY });
-        setSelectedTask(task);
-        setMenuVisible(true); // Show the menu
-    };
+        const { pageX, pageY } = event.nativeEvent
+        setMenuPosition({ x: pageX, y: pageY })
+        setSelectedTask(task)
+        setTaskName(task.name)
+        setTaskDescription(task.description)
+        setIsFinished(task.isFinished)
+        setDueDate(task.dueDate)
+        setMenuVisible(true)
+    }
 
     const ProgressBar = ({ tasks }) => {
-        const completedTasks = tasks.filter(task => task.isFinished).length;
-        const totalTasks = tasks.length;
-        const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-
-        console.log('Progress percentage:', progress); // Debugging
+        const completedTasks = tasks.filter((task) => task.isFinished).length
+        const totalTasks = tasks.length
+        const progress =
+            totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0
 
         return (
             <View style={styles.progressContainer}>
-                <Text style={styles.progressText}>{`Progress: ${completedTasks}/${totalTasks}`}</Text>
+                <Text
+                    style={styles.progressText}
+                >{`Progress: ${completedTasks}/${totalTasks}`}</Text>
                 <View style={styles.progressBar}>
-                    <View style={[styles.progress, { width: `${progress}%` }]} />
+                    <View
+                        style={[styles.progress, { width: `${progress}%` }]}
+                    />
                 </View>
             </View>
-        );
-    };
-
+        )
+    }
 
     return (
         <View style={styles.scrollContainer}>
@@ -154,32 +143,56 @@ const TaskView = ({ route }) => {
                     <Task
                         task={item}
                         toggleFinished={toggleFinished}
-                        onOptionsPress={(event) => handlePressOptions(event, item)}
+                        onOptionsPress={(event) =>
+                            handlePressOptions(event, item)
+                        }
                     />
                 )}
-                ListEmptyComponent={<Text style={styles.progressText}>No tasks available.</Text>}
+                ListEmptyComponent={
+                    <Text style={styles.progressText}>No tasks available.</Text>
+                }
                 contentContainerStyle={styles.flatListContainer}
             />
 
             <TouchableOpacity
                 style={styles.createBoardButton}
-                onPress={() => setIsModalVisible(true)}
+                onPress={() => {
+                    setIsModalVisible(true)
+                    setSelectedTask(null) // Ensure it's for creating, not editing
+                }}
             >
                 <MaterialIcons name="add" size={32} color="#fff" />
                 <Text style={styles.buttonText}>Add Task</Text>
             </TouchableOpacity>
 
-            {/* Task Modal for Creating and Editing Tasks */}
+            {/* Task Modal for Creating */}
             <TaskModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
-                onSubmit={selectedTask ? handleEditTask : handleCreateTask}
-                taskName={newTaskName}
-                setTaskName={setNewTaskName}
-                taskDescription={newTaskDescription}
-                setTaskDescription={setNewTaskDescription}
+                onSubmit={handleCreateTask}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDescription={taskDescription}
+                setTaskDescription={setTaskDescription}
                 isFinished={isFinished}
                 setIsFinished={setIsFinished}
+                dueDate={dueDate}
+                setDueDate={setDueDate}
+            />
+
+            {/* Task Modal for Editing */}
+            <TaskModal
+                visible={isEditModalVisible}
+                onClose={() => setIsEditModalVisible(false)}
+                onSubmit={handleEditTask}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDescription={taskDescription}
+                setTaskDescription={setTaskDescription}
+                isFinished={isFinished}
+                setIsFinished={setIsFinished}
+                dueDate={dueDate}
+                setDueDate={setDueDate}
             />
 
             {/* Options Menu */}
@@ -187,19 +200,37 @@ const TaskView = ({ route }) => {
                 visible={menuVisible}
                 position={menuPosition}
                 onClose={() => setMenuVisible(false)}
-                onEdit={handleEditModal}
+                onEdit={() => setIsEditModalVisible(true)}
                 onDelete={handleDeleteTask}
-                onMove={() => setIsMoveModalVisible(true)} // Pass the correct move handler here
+                onMove={() => {
+                    setIsMoveModalVisible(true)
+                }}
             />
 
             {/* Move Task Modal */}
             <MoveTaskModal
                 visible={isMoveModalVisible}
                 onClose={() => setIsMoveModalVisible(false)}
-                lists={getAllLists().filter((l) => l.id !== listId)} // Exclude current list
-                onMove={handleMoveToTargetList}
+                lists={getAllLists().filter((l) => l.id !== listId)}
+                onMove={(targetListId) => {
+                    const targetList = getListById(targetListId)
+                    if (targetList) {
+                        updateTaskInList(
+                            listId,
+                            list.tasks.filter(
+                                (task) => task.id !== selectedTask.id,
+                            ),
+                        )
+                        updateTaskInList(targetListId, [
+                            ...targetList.tasks,
+                            selectedTask,
+                        ])
+                    }
+                    setIsMoveModalVisible(false)
+                }}
             />
         </View>
-    );
-};
-export default TaskView;
+    )
+}
+
+export default TaskView

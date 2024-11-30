@@ -1,16 +1,21 @@
-import React from 'react';
-import { View, Text, TextInput, Button, Modal } from 'react-native';
-import styles from './styles';
+import React from 'react'
+import styles from './styles'
+import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native'
 
 const EditBoardModal = ({
-                            visible,
-                            onClose,
-                            onSubmit,
-                            boardName,
-                            setBoardName,
-                            boardThumbnail,
-                            setBoardThumbnail,
-                        }) => {
+    visible,
+    onClose,
+    onSubmit,
+    boardName = '',
+    setBoardName,
+    boardThumbnail = '',
+    setBoardThumbnail,
+    boardDescription = '',
+    setBoardDescription,
+}) => {
+    const isSaveDisabled =
+        !boardName.trim() || !boardThumbnail.trim() || !boardDescription.trim()
+
     return (
         <Modal
             visible={visible}
@@ -20,29 +25,74 @@ const EditBoardModal = ({
         >
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text style={styles.editHeader}>Edit Board</Text>
+                    <Text style={styles.createHeader}>Edit Board</Text>
+
+                    {/* Board Name Input */}
                     <TextInput
+                        accessible={true}
+                        accessibilityLabel="Edit Board Name"
                         placeholder="Board Name"
                         placeholderTextColor="#C4C4C4"
                         style={styles.input}
                         value={boardName}
-                        onChangeText={setBoardName}
+                        onChangeText={(text) => {
+                            setBoardName(text)
+                        }}
                     />
+
+                    {/* Thumbnail URL Input */}
                     <TextInput
+                        accessible={true}
+                        accessibilityLabel="Edit Thumbnail URL"
                         placeholder="Thumbnail URL"
                         placeholderTextColor="#C4C4C4"
                         style={styles.input}
                         value={boardThumbnail}
-                        onChangeText={setBoardThumbnail}
+                        onChangeText={(text) => {
+                            setBoardThumbnail(text)
+                        }}
                     />
+
+                    {/* Description Input */}
+                    <TextInput
+                        accessible={true}
+                        accessibilityLabel="Edit Board Description"
+                        placeholder="Description"
+                        placeholderTextColor="#C4C4C4"
+                        style={styles.input}
+                        multiline={true} // Allows multi-line input
+                        numberOfLines={3} // Specifies visible rows
+                        value={boardDescription}
+                        onChangeText={(text) => {
+                            setBoardDescription(text)
+                        }}
+                    />
+
+                    {/* Buttons */}
                     <View style={styles.editButtons}>
-                        <Button title="Cancel" onPress={onClose} color="#818181" />
-                        <Button title="Save" onPress={onSubmit} color="#818181" />
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={onClose}
+                        >
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                styles.button,
+                                isSaveDisabled && { backgroundColor: '#ccc' },
+                            ]}
+                            onPress={() => {
+                                onSubmit()
+                            }}
+                            disabled={isSaveDisabled}
+                        >
+                            <Text style={styles.buttonText}>Save</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
         </Modal>
-    );
-};
+    )
+}
 
-export default EditBoardModal;
+export default EditBoardModal

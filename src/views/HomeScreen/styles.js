@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -6,15 +6,34 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#f8f9fa',
     },
-    header: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
+
     flatListContainer: {
         paddingBottom: 16,
     },
-// Board
+    // header
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 16,
+    },
+    headerText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    calendarButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 8,
+        backgroundColor: '#DFDFDF',
+        borderRadius: 8,
+    },
+    calendarText: {
+        color: '#000',
+        fontSize: 16,
+        marginLeft: 8,
+    },
+    // Board
     boardButtonText: {
         fontSize: 20,
         color: '#333',
@@ -46,13 +65,13 @@ const styles = StyleSheet.create({
     boardDetails: {
         flex: 1,
     },
-// More Options
+    // More Options
     optionsContainer: {
         flex: 1,
     },
     optionsOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     optionsMenu: {
         position: 'absolute',
@@ -101,7 +120,7 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         color: '#333',
     },
-// Line
+    // Line
     line: {
         height: 2,
         backgroundColor: '#d3d3d3',
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
         width: '50%',
     },
 
-// Create board
+    // Create board
     createBoardButton: {
         alignSelf: 'center',
         elevation: 2,
@@ -132,7 +151,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 1000,
+        elevation: 10,
     },
+
     modalContent: {
         width: '50%',
         backgroundColor: 'white',
@@ -161,8 +183,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 8,
-    }, /* <-- Special styles for loading screen --> */
-    loadingScreencontainer: {
+    } /* <-- Special styles for loading screen --> */,
+    loadingScreenContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -170,8 +192,13 @@ const styles = StyleSheet.create({
     loadingScreenText: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 20
-    }
-});
+        marginBottom: 20,
+    },
+    boardDescription: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 4,
+    },
+})
 
-export default styles;
+export default styles
