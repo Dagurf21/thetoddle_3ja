@@ -1,6 +1,9 @@
 # Toodler
 T-488-MAPP - Þróun Smáforrita - 2024 Haustönn - Háskólinn í Reykjavík
 Assingment 1
+
+## Developed on mac, linux, windows - Tested on IOS 
+
 ## Extra requirements list
 
 - Loading screen. Which has a logo, text to say "welcome to the Toodler" and a link to the home page
