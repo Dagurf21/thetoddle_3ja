@@ -101,6 +101,10 @@ const TaskView = ({ route }) => {
         const { pageX, pageY } = event.nativeEvent
         setMenuPosition({ x: pageX, y: pageY })
         setSelectedTask(task)
+        setTaskName(task.name)
+        setTaskDescription(task.description)
+        setIsFinished(task.isFinished)
+        setDueDate(task.dueDate)
         setMenuVisible(true)
     }
 

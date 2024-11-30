@@ -35,6 +35,9 @@ const HomeScreen = ({ navigation }) => {
     const handlePressOptions = (event, board) => {
         const { pageX, pageY } = event.nativeEvent
         setMenuPosition({ x: pageX, y: pageY })
+        setEditBoardName(board.name)
+        setEditBoardThumbnail(board.thumbnailPhoto)
+        setEditBoardDescription(board.description)
         setSelectedBoard(board)
         setMenuVisible(true)
     }

@@ -26,6 +26,8 @@ const List = ({ list }) => {
     const handlePressOptions = (event) => {
         const { pageX, pageY } = event.nativeEvent
         setMenuPosition({ x: pageX, y: pageY })
+        setEditListName(list.name)
+        setEditListColor(list.color)
         setMenuVisible(true)
     }
 
